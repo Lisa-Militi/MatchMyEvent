@@ -1,5 +1,3 @@
 import streamlit as st
+import session_state_handler as ss_handler
 
-st.title("Welcome to MatchMyEvent!")
-
-st.write("this is for testing purposes")
