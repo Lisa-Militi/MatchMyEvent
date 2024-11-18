@@ -29,3 +29,5 @@ test_club = Club('HIC', ['finance', 'economics', 'banking'])
 def merge_keywords(event_keywords, club_keywords):
     for keyword in club_keywords:
         event_keywords.append(keyword)
+
+
