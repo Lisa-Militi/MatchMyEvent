@@ -9,23 +9,28 @@ class Event_profile:
         self.club_name = club_name #string
         self.event_type = event_type #string
         self.event_description = event_description #string
-        self.event_keywords = [] #list
+        self.event_keywords = event_keywords #list
+
+        event_keywords = []
 
 
 class Club:
 
     def __init__(self, club_name, club_keywords):
         self.club_name = club_name #string
-        self.club_keywords = [] #list
+        self.club_keywords = club_keywords #list
+
+        club_keywords = []
 
 
+#TEST INSTANCES
 test_event = Event_profile('Symposium', 'panel_discussion', 'this is where the description goes as a string', ['international', 'politics', 'economics'])
 
 test_club = Club('HIC', ['finance', 'economics', 'banking'])
 
 
 
-
+#FUNCTIONS
 def merge_keywords(event_keywords, club_keywords):
     for keyword in club_keywords:
         event_keywords.append(keyword)
