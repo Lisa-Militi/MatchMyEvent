@@ -5,6 +5,10 @@ import session_state_handler as sh
 from multipage_layout import test_major_BA
 from multipage_layout import test_major_Econ
 
+def reset_event_categories():
+    if st.button("Reset Event Categories"):
+        st.session_state['event_categories'] = []
+            
 
 def get_user_profile():
     st.subheader("User Profile")
@@ -18,7 +22,7 @@ def get_user_profile():
     
     
     #MAJOR
-    major_input = st.selectbox("What is your major?", ("Bachelor: BA","Bachelor: Econ", "Bachelor: IA",
+    major_input = st.selectbox("What is your major?", ("-select-", "Bachelor: BA","Bachelor: Econ", "Bachelor: IA",
                                                                 "Bachelor: Law & Econ", "Master: MacFin", "Master: MBI"),) #to be completed
     sh.update_major(major_input)
 
@@ -31,14 +35,19 @@ def get_user_profile():
 
 
     #EVENT TYPES
-    event_categories_input = st.multiselect("Select all event types you are interested in", ["networking", "social", "workshop", "career", "podium_discussion"],)
-    sh.update_user_keywords(event_categories_input)
+    temp_list = st.multiselect("Select all event types you are interested in", ["networking", "social", "workshop", "career", "podium_discussion"],)
+    if st.button("Confirm"):
+        event_categories_input = sorted(set(temp_list))
+        sh.update_event_categories(event_categories_input)
+
+    reset_event_categories()
 
 
     #TEST ONLY - to be removed
     st.subheader("TESTING")
     st.write("TEST entries:")
     st.write(st.session_state)
+
 
 
 get_user_profile()
