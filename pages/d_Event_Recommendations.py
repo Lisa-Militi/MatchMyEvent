@@ -4,8 +4,9 @@ import session_state_handler as sh
 
 class Event_profile:
 
-    def __init__(self, event_name, club_name, event_type, event_description, event_keywords):
+    def __init__(self, event_name, event_date, club_name, event_type, event_description, event_keywords):
         self.event_name = event_name #string
+        self.event_date = event_date
         self.club_name = club_name #string
         self.event_type = event_type #string
         self.event_description = event_description #string
@@ -24,7 +25,7 @@ class Club:
 
 
 #TEST INSTANCES
-test_event = Event_profile('Symposium', 'panel_discussion', 'this is where the description goes as a string', ['international', 'politics', 'economics'])
+test_event = Event_profile('Symposium', 'club_name', 'panel_discussion', 'this is where the description goes as a string', ['international', 'politics', 'economics'])
 
 test_club = Club('HIC', ['finance', 'economics', 'banking'])
 
@@ -34,5 +35,7 @@ test_club = Club('HIC', ['finance', 'economics', 'banking'])
 def merge_keywords(event_keywords, club_keywords):
     for keyword in club_keywords:
         event_keywords.append(keyword)
+
+
 
 
