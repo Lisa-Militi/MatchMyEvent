@@ -31,10 +31,10 @@ class Club:
         club_keywords = []
 
 
-#INSTANCES
-Event1 = Event_profile('üß† Memory Clear Jan. 30th', 'club_name', 'panel_discussion', 'this is where the description goes as a string', ['international', 'politics', 'economics'])
+#TEST INSTANCES
+test_event = Event_profile('event_name', 'event_type', 'club_name', 'club_category', 'event_description', 'start_date', 'end_date', 'location')
 
-test_club = Club('HIC', ['finance', 'economics', 'banking'])
+test_club = Club('club_name', 'club_category','club_language', 'skill_development', 'interest')
 
 
 
