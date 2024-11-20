@@ -1,121 +1,76 @@
-name: Python Workflow
-on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
-jobs:
-  build:
-    runs-on: ubuntu-latest
-
-steps:
-name: Checkout Code
-uses: actions/checkout@v3
-
-name: Set up Python
-uses: actions/setup-python@v4
-        with:
-          python-version: '3.10'  # Change to your Python version if needed
-
-name: Install Dependencies
-        run:
-          python -m pip install --upgrade pip
-          pip install --upgrade numpy pandas
-
-name: Run Tests or Script
-        run:
-          python your_script.py  # Replace with your actual script or test command
-
 import streamlit as st
-import session_state_handler as sh
-import pandas as pd
+#import session_state_handler as sh
+#import pandas as pd #not necessary
 
-class Event_profile:
+#load and display file (it did not work yet, so I implemented the list myself)
+event_keywords = ['Volunteer Program', 'Oikos', 'Panel Discussion',
+ 'Keynote Speech', 'Sustainability', 'Case Competition', 'Guest Lecture', 'Fundraising', 'Social Gathering',
+ 'Tech Talks', 'Alumni Meet', 'Skill Development',
+ 'Entrepreneurship', 'Entrepreneurship', 'Sustainability',
+ 'Innovation Challenge', 'Community']
 
-    def __init__(self, EventName, EventType, ClubName, ClubCategory, EventDescription, StartDate, EndDate, Location):
-        self.EventName = event_name #string
-        self.EventType = event_type #string
-        self.ClubName = club_name #string
-        self.ClubCategory = club_category #string
-        self.EventDescription = event_description #string
-        self.StartDate = start_date #datetime
-        self.EndDate = end_date #datetime
-        self.Location = location #string
+st.write("### Event list Preview:")
+st.dataframe(event_keywords)  # Interactive table
 
-        event_keywords = []
+user_keywords = ['Workshops', 'Volunteer Program',
+ 'Keynote Speech', 'Club Fair', 'Case Competition', 'Guest Lecture',
+ 'Sports Tournament', 'Fundraising', 'Career Fair', 'Social Gathering',
+ 'Tech Talks', 'HSG', 'Community', 'Skill Development',
+ 'Entrepreneurship', 'Entrepreneurship', 'Sustainability',
+ 'Innovation Challenge', 'Community']
+
+st.write("### User list Preview:")
+st.dataframe(user_keywords)  # Interactive table
+
+#KMS CALCULATION
+def calculate_kms(user_keywords, event_keywords): #will need to be changed to be values from instances
+    matches = list(filter(lambda keyword: keyword in event_keywords, user_keywords))
+    match_count = len(matches)
+    total_keywords = len(user_keywords)
+    match_rate = (match_count / total_keywords * 100) if total_keywords > 0 else 0
+    return match_rate, matches
+#may require session state
+
+# definition of the kms bonus for event type match, adds 10% if kms is below 90
+def apply_event_type_bonus(kms, event_type_match):
+    if event_type_match == True:
+        bonus = 10 if kms <= 90 else (100 - kms)
+        return min(kms + bonus, 100)
+    return kms
+
+#event_type to be called from session states
+#use list instead of dict
+event_type_list = ["keynote", "seminar", "lecture", "conference"]
+event_type = "keynote"
+event_type_match = False
+
+#CHANGE
+def check_event_type_match(event_type, event_type_list, event_type_match):
+    if event_type in event_type_list:
+        event_type_match = True
+    return event_type_match
 
 
-class Club:
 
-    def __init__(self, ClubName, ClubCategory, ClubLanguage, SkillDevelopment, Interest):
-        self.ClubName = club_name #string
-        self.ClubCategory = club_category #string
-        self.ClubLanguage = club_language #string
-        self.SkillDevelopment = skill_development #string
-        self.Interest = interest #string
+# Calculate initial KMS das verstehe ich auch nicht
+initial_kms, matches = calculate_kms(user_keywords, event_keywords)
+print(f"Initial KMS: {initial_kms:.2f}%")
+#print(f"Matched Keywords: {matches}")
 
-        self.club_keywords = club_keywords #list
 
-        club_keywords = []
 
-class Keywords:
+# Apply event type bonus
+event_type_match = check_event_type_match(event_type, event_type_list, event_type_match)
+final_kms = apply_event_type_bonus(initial_kms, event_type_match)
+print(f"Final KMS (with event type bonus): {final_kms:.2f}%")
 
-      def __init__(self, KeywordsCloud):
-        self.KeywordsCloud = keywords
-        keywords_cloud = []
+match_rate, matches = calculate_kms(user_keywords,event_keywords)
 
-#INSTANCES (objects of class Event_profile and Club)
-#load excel files 
-events_file = pd.read_csv(/Users/alice/Downloads/Events_file.csv)
-clubs_file = pd.read_csv(/Users/alice/Downloads/Clubs_file.csv)
-keywords_cloud_file = pd.read_csv(/Users/alice/Downloads/Keywords_Cloud_file.csv)
 
-#lists to store objects
-#TO BE ADDED TO SESSION STATES
-events_instances = []
-clubs_instances = []
-keywords_cloud_instances = [] #there should only be one instance; technically the keyword cloud can be a hard-coded list, independent of sessions states
+progress_bar = st.progress(int(match_rate))
 
-#Event_profile Objects
-for _, row in events_file.iterrows():
-    event_instance = Event_profile(
-        EventName = row['event_name'],
-        EventType = row['event_type'],
-        EventLanguage = row['event_language'],
-        ClubName = row['club_name'],
-        ClubCategory = row['club_category'],
-        EventDescription = row['event_description'],
-        StartDate = row['start_date'],
-        EndDate = row['end_date'],
-        Location = row['location']
-    )
-    events_instances.append(event_instance)
-
-# Club Objects
-for _, row in clubs_file.iterrows():
-    club_instance = Club(
-        ClubName = row['club_name'],
-        ClubCategory = row['club_category'],
-        ClubLanguage = row['club_language'],
-        SkillDevelopment = row['skill_development'],
-        Interest = row['interest']
-    )
-    clubs_instances.append(club_instance)
-
-# Keywords Cloud Objects
-for _, row in keywords_cloud_file.iterrows():
-    keyword_instance = Keywords(
-        KeywordsCloud = row['keywords'],
-    )
-  keywords_cloud_instances.append(keyword_instance)
-
-#FUNCTIONS
-#this should be the other way around; however, all of the event_keywords should already be in the keywords_cloud
-def merge_keywords(event_keywords, keywords_cloud):
-    for keyword in keywords_cloud:
-        event_keywords.append(keyword)
+st.write(match_rate)
+st.write(matches)
 
 
 
