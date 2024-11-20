@@ -32,7 +32,7 @@ class Club:
 
 class Keywords:
 
-    def __init__(self, KeywordsCloud):
+      def __init__(self, KeywordsCloud):
         self.KeywordsCloud = keywords
         keywords_cloud = []
 
