@@ -38,9 +38,9 @@ class Keywords:
 
 #INSTANCES (objects of class Event_profile and Club)
 #load excel files 
-events_file = pd.read_csv(/Users/alice/Downloads/Events_file.xlsx)
-clubs_file = pd.read_csv(/Users/alice/Downloads/Clubs_file.xlsx)
-keywords_cloud_file = pd.read_csv(/Users/alice/Downloads/Keywords_Cloud_file.xlsx)
+events_file = pd.read_csv(/Users/alice/Downloads/Events_file.csv)
+clubs_file = pd.read_csv(/Users/alice/Downloads/Clubs_file.csv)
+keywords_cloud_file = pd.read_csv(/Users/alice/Downloads/Keywords_Cloud_file.csv)
 
 #lists to store objects
 #TO BE ADDED TO SESSION STATES
