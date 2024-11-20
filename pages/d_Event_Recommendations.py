@@ -43,6 +43,7 @@ clubs_file = pd.read_csv(/Users/alice/Downloads/Clubs_file.xlsx)
 keywords_cloud_file = pd.read_csv(/Users/alice/Downloads/Keywords_Cloud_file.xlsx)
 
 #lists to store objects
+#TO BE ADDED TO SESSION STATES
 events_instances = []
 clubs_instances = []
 keywords_cloud_instances = []
