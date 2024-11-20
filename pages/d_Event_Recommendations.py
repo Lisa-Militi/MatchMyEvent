@@ -1,3 +1,33 @@
+name: Python Workflow
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+steps:
+name: Checkout Code
+uses: actions/checkout@v3
+
+name: Set up Python
+uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'  # Change to your Python version if needed
+
+name: Install Dependencies
+        run:
+          python -m pip install --upgrade pip
+          pip install --upgrade numpy pandas
+
+name: Run Tests or Script
+        run:
+          python your_script.py  # Replace with your actual script or test command
+
 import streamlit as st
 import session_state_handler as sh
 import pandas as pd
