@@ -7,7 +7,8 @@ session_state_dict = {
                         "event_categories": [],
                         "user_keywords": [],
                          "language": '-select-',
-                        "selected_clubs": []
+                        "selected_clubs": [],
+                        "selected_interests" : []
                         }
 
 
@@ -35,6 +36,10 @@ def initiate_session_state():
     #SELECTED CLUBS
     if 'selected_clubs' not in st.session_state:
         st.session_state['selected_clubs'] = []
+
+    #INTERESTS
+    if 'selected_interests' not in st.session_state:
+        st.session_state['selected_interests'] = []
 
 
 
