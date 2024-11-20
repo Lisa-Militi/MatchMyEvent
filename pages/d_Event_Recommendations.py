@@ -56,9 +56,9 @@ for _, row in events_file.iterrows():
         ClubName = row['club_name'],
         ClubCategory = row['club_category'],
         EventDescription = row['event_description'],
-        startDate = row['start_date'],
-        endDate = row['end_date'],
-        location = row['location']
+        StartDate = row['start_date'],
+        EndDate = row['end_date'],
+        Location = row['location']
     )
     events_instances.append(event_instance)
 
