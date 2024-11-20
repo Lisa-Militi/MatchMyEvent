@@ -4,7 +4,7 @@ import pandas as pd
 
 class Event_profile:
 
-    def __init__(self, event_name, event_type, event_language, club_name, club_name, club_category, event_description, start_date, end_date, location):
+    def __init__(self, EventName, EventType, ClubName, ClubCategory, EventDescription, startDate, endDate, Location):
         self.EventName = event_name #string
         self.EventType = event_type #string
         self.ClubName = club_name #string
@@ -81,8 +81,6 @@ for _, row in keywords_cloud_file.iterrows():
   keywords_cloud_instances.append(keyword_instance)
 
 #FUNCTIONS
-
-
 
 def merge_keywords(event_keywords, club_keywords):
     for keyword in club_keywords:
