@@ -9,8 +9,8 @@ st.set_page_config(
 
 st.title("Welcome to MatchMyEvent!")
 
-image_path = "/Users/alice/Desktop/ClubsHSG.png"  
-st.image(image_path, caption="HSG Clubs", use_column_width=True)
+#image_path = "/Users/alice/Desktop/ClubsHSG.png"  
+#st.image(image_path, caption="HSG Clubs", use_column_width=True)
 
 st.markdown(
     """
