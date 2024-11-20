@@ -84,7 +84,7 @@ for _, row in keywords_cloud_file.iterrows():
 
 #FUNCTIONS
 #this should be the other way around; however, all of the event_keywords should already be in the keywords_cloud
-def merge_keywords(event_keywords, keywords_cloud):
-    for keyword in keywords_cloud:
-        event_keywords.append(keyword)
+#def merge_keywords(event_keywords, keywords_cloud):
+    #for keyword in keywords_cloud:
+        #event_keywords.append(keyword)
 
