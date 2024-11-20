@@ -81,9 +81,8 @@ for _, row in keywords_cloud_file.iterrows():
   keywords_cloud_instances.append(keyword_instance)
 
 #FUNCTIONS
-
-def merge_keywords(event_keywords, club_keywords):
-    for keyword in club_keywords:
+def merge_keywords(event_keywords, keywords_cloud):
+    for keyword in keywords_cloud:
         event_keywords.append(keyword)
 
 
