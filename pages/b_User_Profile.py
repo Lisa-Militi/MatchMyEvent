@@ -5,15 +5,17 @@ import os
 from datetime import datetime
 
 #IMPORT ALL INSTANCES OF CLASSES
+#import page, access as ml.test_major_BA._major_keywords
 from multipage_layout import test_major_BA
 from multipage_layout import test_major_Econ
 
 # Explicitly initialize session state
+#move to session_state_handler, import session states
 for key, default_value in sh.session_state_dict.items():
     if key not in st.session_state:
         st.session_state[key] = default_value
 
-
+#hard-coded list of clubs for use in st-widget
 STUDENT_CLUBS = [
     "AIESEC in St. Gallen", "CEMS Club St. Gallen", "Le Cercle des Francophones (CF)", 
     "Club Latino", "European Nations' Society (ENSo)", "Hungarian Society", 
@@ -25,10 +27,12 @@ STUDENT_CLUBS = [
     "Tech Club", "FinTech Club", "Marketing Club", "Crypto Society", "Toastmasters"
 ]
 
+#hard-coded list of languages for use in st-widget, would require a language-attribute in the event-instance to come up with multiplication factor for kms
 LANGUAGES = [
     "English", "Spanish", "Italian", "German", "Turkish", "French"
 ]
 
+#hard-coded list of interests for use in st-widget; should be equal to keywords_cloud; import as variable form hard coded list in multipage_layout
 INTERESTS = [
     "Artistic expression",
     "Business strategy",
@@ -75,6 +79,7 @@ INTERESTS = [
     "Trading"
 ]
 
+#check if actually used
 def reset_event_categories():
     if st.button("Reset Event Categories"):
         sh.update_event_categories([])
@@ -104,6 +109,7 @@ def get_user_profile():
                                                                 "Bachelor: Law & Econ", "Master: MacFin", "Master: MBI"),) #to be completed
     sh.update_major(major_input)
 
+    #check functionality
     if st.session_state['event_categories'] == "Bachelor: BA":
         for keyword in test_major_BA._major_keywords:
             sh.session_state_dict["user_keywords"] += keyword
@@ -146,8 +152,8 @@ def add_save_button():
         # Create filename with timestamp
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         filename = f"user_profiles_{timestamp}.csv"
-        
-        # Save to CSV
+
+        # Save to CSV -> not to be saved to csv; this should be only local in st.session_state
         if not os.path.exists('user_profiles'):
             os.makedirs('user_profiles')
             
@@ -162,7 +168,7 @@ get_user_profile()
 add_save_button()
 st.write(st.session_state)
 
-
+#no longer needed below
 #st.write(type(test_user._user_event_categories))
 #st.write(type(test_user._user_keywords))
 #st.write(type(test_major_Econ._major_keywords))
