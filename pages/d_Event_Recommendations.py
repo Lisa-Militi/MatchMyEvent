@@ -4,14 +4,14 @@ import pandas as pd
 
 class Event_profile:
 
-    def __init__(self, EventName, EventType, ClubName, ClubCategory, EventDescription, startDate, endDate, Location):
+    def __init__(self, EventName, EventType, ClubName, ClubCategory, EventDescription, StartDate, EndDate, Location):
         self.EventName = event_name #string
         self.EventType = event_type #string
         self.ClubName = club_name #string
         self.ClubCategory = club_category #string
         self.EventDescription = event_description #string
-        self.startDate = start_date #datetime
-        self.endDate = end_date #datetime
+        self.StartDate = start_date #datetime
+        self.EndDate = end_date #datetime
         self.Location = location #string
 
         event_keywords = []
