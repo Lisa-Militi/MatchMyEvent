@@ -160,6 +160,7 @@ def add_save_button():
 
 get_user_profile()
 add_save_button()
+st.write(st.session_state)
 
 
 #st.write(type(test_user._user_event_categories))
