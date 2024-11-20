@@ -46,7 +46,7 @@ keywords_cloud_file = pd.read_csv(/Users/alice/Downloads/Keywords_Cloud_file.xls
 #TO BE ADDED TO SESSION STATES
 events_instances = []
 clubs_instances = []
-keywords_cloud_instances = []
+keywords_cloud_instances = [] #there should only be one instance; technically the keyword cloud can be a hard-coded list, independent of sessions states
 
 #Event_profile Objects
 for _, row in events_file.iterrows():
@@ -82,6 +82,7 @@ for _, row in keywords_cloud_file.iterrows():
   keywords_cloud_instances.append(keyword_instance)
 
 #FUNCTIONS
+#this should be the other way around; however, all of the event_keywords should already be in the keywords_cloud
 def merge_keywords(event_keywords, keywords_cloud):
     for keyword in keywords_cloud:
         event_keywords.append(keyword)
