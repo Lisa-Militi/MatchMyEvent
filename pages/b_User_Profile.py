@@ -5,10 +5,30 @@ import session_state_handler as sh
 from multipage_layout import test_major_BA
 from multipage_layout import test_major_Econ
 
+# Explicitly initialize session state
+for key, default_value in sh.session_state_dict.items():
+    if key not in st.session_state:
+        st.session_state[key] = default_value
+
+
+STUDENT_CLUBS = [
+    "AIESEC in St. Gallen", "CEMS Club St. Gallen", "Le Cercle des Francophones (CF)", 
+    "Club Latino", "European Nations' Society (ENSo)", "Hungarian Society", 
+    "Italian Club", "Model WTO", "East Slavic Club", "Scandinavian Society", 
+    "St. Gallen Model United Nations (SGMUN)", "Turkish Business Club", 
+    "Academic Surf Club", "Combat Sports Club", "Cycling Club", "HSG Sailing", 
+    "Salsa & Latin Dance Club", "HSG Tennis Team", "HSG Debating Club", 
+    "The Philosophy Club", "HSG Big Band", "Consulting Club", "Social Business Club", 
+    "Tech Club", "FinTech Club", "Marketing Club", "Crypto Society", "Toastmasters"
+]
+
+LANGUAGES = [
+    "English", "Spanish", "Italian", "German", "Turkish", "French"
+]
+
 def reset_event_categories():
     if st.button("Reset Event Categories"):
-        st.session_state['event_categories'] = []
-            
+        sh.update_event_categories([])
 
 def get_user_profile():
     st.subheader("User Profile")
@@ -16,10 +36,19 @@ def get_user_profile():
 
 
     #NAME
-    name_input = st.text_input("What is you name?", value=st.session_state['name'])
+    # changed Use .get() method to prevent KeyError
+    name_input = st.text_input("What is your name?", 
+                                value=st.session_state.get('name', ''))
     if name_input != '':
         sh.update_name(name_input)
-    
+
+    #Language
+    language_list = st.multiselect("Select yout language prefferences", 
+                                LANGUAGES)
+
+        
+    st.session_state['selected_languages'] = language_list
+
     
     #MAJOR
     major_input = st.selectbox("What is your major?", ("-select-", "Bachelor: BA","Bachelor: Econ", "Bachelor: IA",
@@ -32,6 +61,14 @@ def get_user_profile():
     elif st.session_state['event_categories'] == "Bachelor: Econ":
         for keyword in test_major_Econ._major_keywords:
             sh.session_state_dict["user_keywords"] += keyword
+
+
+    #CLUBS
+    clubs_list = st.multiselect("Select the student clubs you are interested in", 
+                                STUDENT_CLUBS)
+
+        
+    st.session_state['selected_clubs'] = clubs_list
 
 
     #EVENT TYPES
