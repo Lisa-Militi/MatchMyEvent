@@ -1,6 +1,6 @@
 import streamlit as st
 import session_state_handler as sh
-
+import pandas as pd
 
 class Event_profile:
 
@@ -30,15 +30,60 @@ class Club:
 
         club_keywords = []
 
+class Keywords:
 
-#TEST INSTANCES
-test_event = Event_profile('event_name', 'event_type', 'club_name', 'club_category', 'event_description', 'start_date', 'end_date', 'location')
+    def __init__(self, KeywordsCloud):
+        self.KeywordsCloud = keywords
+        keywords_cloud = []
 
-test_club = Club('club_name', 'club_category','club_language', 'skill_development', 'interest')
+#INSTANCES (objects of class Event_profile and Club)
+#load excel files 
+events_file = pd.read_csv(/Users/alice/Downloads/Events_file.xlsx)
+clubs_file = pd.read_csv(/Users/alice/Downloads/Clubs_file.xlsx)
+keywords_cloud_file = pd.read_csv(/Users/alice/Downloads/Keywords_Cloud_file.xlsx)
 
+#lists to store objects
+events_instances = []
+clubs_instances = []
+keywords_cloud_instances = []
 
+#Event_profile Objects
+for _, row in events_file.iterrows():
+    event_instance = Event_profile(
+        EventName = row['event_name'],
+        EventType = row['event_type'],
+        EventLanguage = row['event_language'],
+        ClubName = row['club_name'],
+        ClubCategory = row['club_category'],
+        EventDescription = row['event_description'],
+        startDate = row['start_date'],
+        endDate = row['end_date'],
+        location = row['location']
+    )
+    events_instances.append(event_instance)
+
+# Club Objects
+for _, row in clubs_file.iterrows():
+    club_instance = Club(
+        ClubName = row['club_name'],
+        ClubCategory = row['club_category'],
+        ClubLanguage = row['club_language'],
+        SkillDevelopment = row['skill_development'],
+        Interest = row['interest']
+    )
+    clubs_instances.append(club_instance)
+
+# Keywords Cloud Objects
+for _, row in keywords_cloud_file.iterrows():
+    keyword_instance = Keywords(
+        KeywordsCloud = row['keywords'],
+    )
+  keywords_cloud_instances.append(keyword_instance)
 
 #FUNCTIONS
+
+
+
 def merge_keywords(event_keywords, club_keywords):
     for keyword in club_keywords:
         event_keywords.append(keyword)
