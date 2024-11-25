@@ -1,7 +1,6 @@
 import streamlit as st
 import session_state_handler as sh
 import pandas as pd
-import os
 from datetime import datetime
 
 #IMPORT ALL INSTANCES OF CLASSES
@@ -26,6 +25,15 @@ STUDENT_CLUBS = [
     "The Philosophy Club", "HSG Big Band", "Consulting Club", "Social Business Club", 
     "Tech Club", "FinTech Club", "Marketing Club", "Crypto Society", "Toastmasters"
 ]
+
+
+major_keyword_dict = {
+                        "Bachelor: BA": ["consulting", "finance", "banking"],
+                        "Bachelor: Econ": ["economics", "politics", "finance"],
+                        "Bachelor: IA": ["international_affairs", "politics", "law", "economics"],
+                        "Bachelor: BLE": [],
+                        "Bachelor: Computer Science": ["technology"],
+                      }
 
 #hard-coded list of languages for use in st-widget, would require a language-attribute in the event-instance to come up with multiplication factor for kms
 LANGUAGES = [
@@ -78,11 +86,49 @@ INTERESTS = [
     "Technology",
     "Trading"
 ]
+#hard-coded list of interests for use in st-widget; should be equal to keywords_cloud; import as variable form hard coded list in multipage_layout
+EVENT_TYPES = [
+    "Introduction",
+    "Sport",
+    "Trip",
+    "Panel discussion",
+    "Party",
+    "Recruitment",
+    "Q&A",
+    "Drink",
+    "Networking",
+    "Conference",
+    "Drink/Introduction",
+    "Workshop",
+    "Beerpong Tournament",
+    "Other",
+    "Cultural",
+    "Concert",
+    "Giveaway",
+    "Conference/Food and Wine Tasting",
+    "Karaoke",
+    "Food Tasting",
+    "Food and Drink",
+    "BBQ",
+    "Olma Messen",
+    "Lunch",
+    "Kick-off",
+    "Mini-Golf",
+    "Info event",
+    "Food and Wine Tasting"
+]
 
 #check if actually used
 def reset_event_categories():
     if st.button("Reset Event Categories"):
         sh.update_event_categories([])
+
+
+'''
+def reset_event_categories():
+    if st.button("Reset Event Categories"):
+        st.session_state['event_categories'] = []
+'''            
 
 def get_user_profile():
     st.subheader("User Profile")
@@ -90,85 +136,66 @@ def get_user_profile():
 
 
     #NAME
-    # changed Use .get() method to prevent KeyError
-    name_input = st.text_input("What is your name?", 
-                                value=st.session_state.get('name', ''))
+    name_input = st.text_input("What is you name?", value=st.session_state['name'])
     if name_input != '':
         sh.update_name(name_input)
-
-    #Language
-    language_list = st.multiselect("Select yout language prefferences", 
-                                LANGUAGES)
-
-        
-    st.session_state['selected_languages'] = language_list
-
     
+    
+    #EMAIL ADDRESS
+    email_input = st.text_input("What is your email address?", value=st.session_state['user_email'])
+    if email_input != '':
+        sh.update_email(email_input)
+
+    #LANGUAGE
+    temp_list_language = st.multiselect("What is your preferred language(s)?", LANGUAGES)
+    if st.button("Confirm languages"):
+        language_input = sorted(set(temp_list_language))
+        sh.update_language(language_input)
+    
+
     #MAJOR
     major_input = st.selectbox("What is your major?", ("-select-", "Bachelor: BA","Bachelor: Econ", "Bachelor: IA",
-                                                                "Bachelor: Law & Econ", "Master: MacFin", "Master: MBI"),) #to be completed
-    sh.update_major(major_input)
+                                                                "Bachelor: BLE", "Bachelor: Computer Science"),) #to be completed
+    if major_input != "-select-":
+        sh.update_major(major_input)
+    if st.button("Confirm Major"):
+        sh.update_major_keywords()
+   
 
-    #check functionality
-    if st.session_state['event_categories'] == "Bachelor: BA":
-        for keyword in test_major_BA._major_keywords:
-            sh.session_state_dict["user_keywords"] += keyword
-    elif st.session_state['event_categories'] == "Bachelor: Econ":
-        for keyword in test_major_Econ._major_keywords:
-            sh.session_state_dict["user_keywords"] += keyword
+    #CLUBS
+    temp_list_clubs = st.multiselect("Which clubs are you a member of or interested in?", STUDENT_CLUBS)
+    if st.button("Confirm clubs"):
+        clubs_input = sorted(set(temp_list_clubs))
+        sh.update_selected_clubs(clubs_input)
+        sh.update_clubs_keywords
+
+    #EVENT TYPES
+    temp_list = st.multiselect("Select all event types you are interested in", EVENT_TYPES,)
+    if st.button("Confirm event categories"):
+        event_categories_input = sorted(set(temp_list))
+        sh.update_event_categories(event_categories_input)
+
+#def get_user_profile_():
+
+    reset_event_categories()
 
 
     #CLUBS
-    clubs_list = st.multiselect("Select the student clubs you are interested in", 
-                                STUDENT_CLUBS)
-
-        
-    st.session_state['selected_clubs'] = clubs_list
 
 
-    #INTEREST TYPES
-    interest_list = st.multiselect("Select your interests", 
-                                INTERESTS)
-    
-    st.session_state['selected_interests'] = interest_list
+    #INTERESTS WITH KEYWORDS
 
 
-def add_save_button():
-    if st.button("Confirm and Save Profile"):
-        # Create dictionary with current session state values
-        profile_data = {
-            "name": st.session_state.get('name', ''),
-            "major": st.session_state.get('major', ''),
-            "event_categories": ','.join(st.session_state.get('event_categories', [])),
-            "user_keywords": ','.join(st.session_state.get('user_keywords', [])),
-            "language": ','.join(st.session_state.get('selected_languages', [])),
-            "selected_clubs": ','.join(st.session_state.get('selected_clubs', [])),
-            "selected_interests": ','.join(st.session_state.get('selected_interests', []))
-        }
-        
-        # Convert to DataFrame
-        df = pd.DataFrame([profile_data])
-        
-        # Create filename with timestamp
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        filename = f"user_profiles_{timestamp}.csv"
-
-        # Save to CSV -> not to be saved to csv; this should be only local in st.session_state
-        if not os.path.exists('user_profiles'):
-            os.makedirs('user_profiles')
-            
-        filepath = os.path.join('user_profiles', filename)
-        df.to_csv(filepath, index=False)
-        
-        st.success(f"Profile saved successfully to {filename}!")
+    #TEST ONLY - to be removed
+    st.subheader("TESTING")
+    st.write("TEST entries:")
+    st.write(st.session_state)
 
 
 
 get_user_profile()
-add_save_button()
-st.write(st.session_state)
+#sh.reset_user()
 
-#no longer needed below
 #st.write(type(test_user._user_event_categories))
 #st.write(type(test_user._user_keywords))
 #st.write(type(test_major_Econ._major_keywords))
