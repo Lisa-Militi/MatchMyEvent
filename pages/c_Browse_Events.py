@@ -101,4 +101,37 @@ for event in events_instances:
 # Vérifier les résultats
 for event in events_instances:
     print(event)
+    
+#TEST
+# Display all event instances with print
+print("Complete list of events:")
+for event in events_instances:
+    print(event)
+
+# Display a specific instance (e.g., the first one)
+if events_instances:
+    print("\nFirst instance:")
+    print(events_instances[0])
+
+# Display all instances with Streamlit
+st.write("Complete list of events:")
+for event in events_instances:
+    st.write(event)
+
+# Display a specific instance with Streamlit
+if events_instances:
+    st.write("\nFirst instance:")
+    st.write(events_instances[0])
+
+# Access specific attributes of an instance
+if events_instances:
+    print("\nAttributes of the first instance:")
+    print(f"EventName: {events_instances[0].EventName}")
+    print(f"StartDate: {events_instances[0].StartDate}")
+    print(f"Keywords: {events_instances[0].event_keywords}")
+
+    st.write("\nAttributes of the first instance:")
+    st.write(f"EventName: {events_instances[0].EventName}")
+    st.write(f"StartDate: {events_instances[0].StartDate}")
+    st.write(f"Keywords: {events_instances[0].event_keywords}")
 
