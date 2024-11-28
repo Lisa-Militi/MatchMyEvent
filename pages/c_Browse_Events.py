@@ -1,137 +1,200 @@
-#import d_Event_Recommendations as ER
 import streamlit as st
-#import session_state_handler as sh
-import csv
-from datetime import datetime
+import session_state_handler as sh
 import pandas as pd
+from datetime import datetime
 
-# Classe pour les événements
-class Event_profile:
-    def __init__(self, EventID, EventName, EventType, ClubName, EventDescription, StartDate, EndDate, Location):
-        self.EventID = EventID
-        self.EventName = EventName
-        self.EventType = EventType
-        self.ClubName = ClubName
-        self.EventDescription = EventDescription
-        self.StartDate = datetime.strptime(StartDate, '%Y-%m-%d')  # Conversion en datetime
-        self.EndDate = datetime.strptime(EndDate, '%Y-%m-%d')  # Conversion en datetime
-        self.Location = Location
-        self.event_keywords = []
+#IMPORT ALL INSTANCES OF CLASSES
+#import page, access as ml.test_major_BA._major_keywords
+from multipage_layout import test_major_BA
+from multipage_layout import test_major_Econ
 
-    def __repr__(self):
-        return (
-            f"Event_profile(EventID={self.EventID!r}, EventName={self.EventName!r}, "
-            f"EventType={self.EventType!r}, ClubName={self.ClubName!r}, "
-            f"StartDate={self.StartDate!r}, EndDate={self.EndDate!r}, Location={self.Location!r}, "
-            f"Keywords={self.event_keywords})"
-        )
+# Explicitly initialize session state
+#move to session_state_handler, import session states
+for key, default_value in sh.session_state_dict.items():
+    if key not in st.session_state:
+        st.session_state[key] = default_value
 
-# Classe pour les clubs
-class Club:
-    def __init__(self, clubName, InterestKeywords):
-        self.clubName = ClubName
-        self.InterestKeywords = club_keywords
+#hard-coded list of clubs for use in st-widget
+STUDENT_CLUBS = [
+    "AIESEC in St. Gallen", "CEMS Club St. Gallen", "Le Cercle des Francophones (CF)", 
+    "Club Latino", "European Nations' Society (ENSo)", "Hungarian Society", 
+    "Italian Club", "Model WTO", "East Slavic Club", "Scandinavian Society", 
+    "St. Gallen Model United Nations (SGMUN)", "Turkish Business Club", 
+    "Academic Surf Club", "Combat Sports Club", "Cycling Club", "HSG Sailing", 
+    "Salsa & Latin Dance Club", "HSG Tennis Team", "HSG Debating Club", 
+    "The Philosophy Club", "HSG Big Band", "Consulting Club", "Social Business Club", 
+    "Tech Club", "FinTech Club", "Marketing Club", "Crypto Society", "Toastmasters"
+]
 
-def __repr__(self):
-        return (
-            f"Club(ClubName={self.clubName!r}, club_keywords={self.InterestKeywords})"
-        )
+
+major_keyword_dict = {
+                        "Bachelor: BA": ["consulting", "finance", "banking"],
+                        "Bachelor: Econ": ["economics", "politics", "finance"],
+                        "Bachelor: IA": ["international_affairs", "politics", "law", "economics"],
+                        "Bachelor: BLE": [],
+                        "Bachelor: Computer Science": ["technology"],
+                      }
+
+
+clubs_dict = {
+                "AIESEC in St. Gallen": ['networking', 'international', 'economics'],
+                "CEMS Club St. Gallen": ['international', "business", "finance"],
+                "Le Cercle des Francophones (CF)": ['social', 'french', 'party']
+                }
+
+#hard-coded list of languages for use in st-widget, would require a language-attribute in the event-instance to come up with multiplication factor for kms
+LANGUAGES = [
+    "English", "Spanish", "Italian", "German", "Turkish", "French"
+]
+
+#hard-coded list of interests for use in st-widget; should be equal to keywords_cloud; import as variable form hard coded list in multipage_layout
+INTERESTS = [
+    "Artistic expression",
+    "Business strategy",
+    "Communication",
+    "Creative thinking",
+    "Critical analysis",
+    "Entrepreneurship",
+    "Event planning",
+    "Innovation",
+    "Leadership",
+    "Management",
+    "Negotiation",
+    "Philosophy",
+    "Presentation",
+    "Problem-solving",
+    "Project management",
+    "Public speaking",
+    "Research",
+    "Social engagement",
+    "Strategy",
+    "Teamwork",
+    "Workshops",
+    "Arts",
+    "Business",
+    "Cultural awareness",
+    "Diplomacy",
+    "Economics",
+    "Environment",
+    "Global issues",
+    "History",
+    "Innovation",
+    "International relations",
+    "Language",
+    "Literature",
+    "Local culture",
+    "Networking",
+    "Philosophy",
+    "Policy",
+    "Politics",
+    "Science",
+    "Social justice",
+    "Sustainability",
+    "Technology",
+    "Trading"
+]
+#hard-coded list of interests for use in st-widget; should be equal to keywords_cloud; import as variable form hard coded list in multipage_layout
+EVENT_TYPES = [
+    "Introduction",
+    "Sport",
+    "Trip",
+    "Panel discussion",
+    "Party",
+    "Recruitment",
+    "Q&A",
+    "Drink",
+    "Networking",
+    "Conference",
+    "Drink/Introduction",
+    "Workshop",
+    "Beerpong Tournament",
+    "Other",
+    "Cultural",
+    "Concert",
+    "Giveaway",
+    "Conference/Food and Wine Tasting",
+    "Karaoke",
+    "Food Tasting",
+    "Food and Drink",
+    "BBQ",
+    "Olma Messen",
+    "Lunch",
+    "Kick-off",
+    "Mini-Golf",
+    "Info event",
+    "Food and Wine Tasting"
+]
+
+     
+
+def get_user_profile():
+    st.subheader("User Profile")
+    st.write("Please answer the questions below to create your User Profile")
+
+
+    #NAME
+    name_input = st.text_input("What is you name?", value=st.session_state['name'])
+    if name_input != '':
+        sh.update_name(name_input)
     
-# Classe pour les mots-clés globaux
-class Keywords:
-    def __init__(self, KeywordsCloud):
-        self.KeywordCloud = KeywordCloud.split(',')
-
-    def __repr__(self):
-        return f"KeywordCloud({self.KeywordCloud})"
-
-# Fonction pour lire les fichiers CSV
-def read_csv_file(file_path):
-   data = []
-    with open(file_path, mode='r', encoding='utf-8') as file:
-        reader = csv.DictReader(file)
-        for row in reader:
-            data.append(row)
-    return data
-
-# Charger les fichiers CSV - to be replaced
-file_path_events = r"C:\Users\leoru\OneDrive\Desktop\HSG\BA 3rd Semester\Computer Science\VS Computer Science\Group 8 Project 20.11.2024\Events_file_updated.csv"
-file_path_clubs = r"C:\Users\leoru\OneDrive\Desktop\HSG\BA 3rd Semester\Computer Science\VS Computer Science\Group 8 Project 20.11.2024\Clubs_file.csv"
-file_path_keywords = r"C:\Users\leoru\OneDrive\Desktop\HSG\BA 3rd Semester\Computer Science\VS Computer Science\Group 8 Project 20.11.2024\Keywords_Cloud.csv"
-
-events_data = read_csv_file(file_path_events)
-clubs_data = read_csv_file(file_path_clubs)
-keywords_data = read_csv_file(file_path_keywords)
-
-# Créer des instances de Club
-clubs_instances = []
-for club in clubs_data:
-    club_instance = Club(ClubName=club['ClubName'], club_keywords=club['Keywords'].split(','))
-    clubs_instances.append(club_instance)
-
-# Créer une instance globale de mots-clés
-keywords_instance = Keywords(KeywordCloud=keywords_data[0]['Keywords'])
-
-# Créer des instances de Event_profile uniquement pour les événements futurs
-events_instances = []
-today = datetime.now()
-for event in events_data:
-    event_start_date = datetime.strptime(event['StartDate'], '%Y-%m-%d')
-    if event_start_date > today:
-        event_instance = Event_profile(
-            EventID=event['EventID'],
-            EventName=event['EventName'],
-            EventType=event['EventType'],
-            ClubName=event['ClubName'],
-            EventDescription=event['EventDescription'],
-            StartDate=event['StartDate'],
-            EndDate=event['EndDate'],
-            Location=event['Location']
-        )
-        events_instances.append(event_instance)
-
-# Associer les mots-clés des clubs et les mots-clés globaux aux événements
-for event in events_instances:
-    for club in clubs_instances:
-        if event.ClubName == club.ClubName:
-            event.event_keywords.extend(club.club_keywords)
-    # Ajouter les mots-clés globaux
-    event.event_keywords.extend(keywords_instance.KeywordCloud)
-
-# Vérifier les résultats
-for event in events_instances:
-    print(event)
     
-#TEST
-# Display all event instances with print
-print("Complete list of events:")
-for event in events_instances:
-    print(event)
+    #EMAIL ADDRESS
+    email_input = st.text_input("What is your email address?", value=st.session_state['user_email'])
+    if email_input != '':
+        sh.update_email(email_input)
 
-# Display a specific instance (e.g., the first one)
-if events_instances:
-    print("\nFirst instance:")
-    print(events_instances[0])
+    #LANGUAGE
+    language_input = st.multiselect("What is your preferred language(s)?", LANGUAGES)
 
-# Display all instances with Streamlit
-st.write("Complete list of events:")
-for event in events_instances:
-    st.write(event)
+    
 
-# Display a specific instance with Streamlit
-if events_instances:
-    st.write("\nFirst instance:")
-    st.write(events_instances[0])
+    #MAJOR
+    major_input = st.selectbox("What is your major?", ("-select-", "Bachelor: BA","Bachelor: Econ", "Bachelor: IA",
+                                                                "Bachelor: BLE", "Bachelor: Computer Science"),) #to be completed
+    if major_input != "-select-":
+        sh.update_major(major_input)
+    
 
-# Access specific attributes of an instance
-if events_instances:
-    print("\nAttributes of the first instance:")
-    print(f"EventName: {events_instances[0].EventName}")
-    print(f"StartDate: {events_instances[0].StartDate}")
-    print(f"Keywords: {events_instances[0].event_keywords}")
+    #CLUBS
+    clubs_input = st.multiselect("Which clubs are you a member of or interested in?", STUDENT_CLUBS)
+    
 
-    st.write("\nAttributes of the first instance:")
-    st.write(f"EventName: {events_instances[0].EventName}")
-    st.write(f"StartDate: {events_instances[0].StartDate}")
-    st.write(f"Keywords: {events_instances[0].event_keywords}")
+
+    #EVENT TYPES
+    event_categories_input = st.multiselect("Select all event types you are interested in", EVENT_TYPES,)
+
+
+    #INTERESTS = user_keywords
+    interests_input = st.multiselect("Select your interests below", INTERESTS)
+
+
+
+    
+    #SAVE USER BUTTON
+    #saves temporary lists to permanent session state variable
+    if st.button("Save User Profile"):
+        #PRIMARY SESSION STATE UPDATES
+        #permanently save language input to session state
+        sh.update_language(language_input)
+        #save list of clubs into session state
+        sh.update_selected_clubs(clubs_input)
+        #save event categories input to session state
+        sh.update_event_categories(event_categories_input)
+        #save interests into user_keywords sessions state
+        sh.update_interests(interests_input)
+
+        #SECONDARY SESSION STATE UPDATES
+        #save user_keywords based on selected major
+        sh.update_major_keywords()
+        #update list of user_keywords based on values in st.session_state['selected_clubs']
+        sh.update_clubs_keywords
+
+
+#EXECUTION
+get_user_profile()
+
+#TEST ONLY - to be removed
+st.subheader("TESTING")
+st.write("TEST entries:")
+st.write(st.session_state)
 
