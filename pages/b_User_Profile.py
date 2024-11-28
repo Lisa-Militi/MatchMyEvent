@@ -1,19 +1,32 @@
 import streamlit as st
+import session_state_handler as sh
+import pandas as pd
+from datetime import datetime
+
+#IMPORT ALL INSTANCES OF CLASSES
+#import page, access as ml.test_major_BA._major_keywords
+from multipage_layout import test_major_BA
+from multipage_layout import test_major_Econ
+
+# Explicitly initialize session state
+#move to session_state_handler, import session states
+for key, default_value in sh.session_state_dict.items():
+    if key not in st.session_state:
+        st.session_state[key] = default_value
+
+#hard-coded list of clubs for use in st-widget
+STUDENT_CLUBS = [
+    "AIESEC in St. Gallen", "CEMS Club St. Gallen", "Le Cercle des Francophones (CF)", 
+    "Club Latino", "European Nations' Society (ENSo)", "Hungarian Society", 
+    "Italian Club", "Model WTO", "East Slavic Club", "Scandinavian Society", 
+    "St. Gallen Model United Nations (SGMUN)", "Turkish Business Club", 
+    "Academic Surf Club", "Combat Sports Club", "Cycling Club", "HSG Sailing", 
+    "Salsa & Latin Dance Club", "HSG Tennis Team", "HSG Debating Club", 
+    "The Philosophy Club", "HSG Big Band", "Consulting Club", "Social Business Club", 
+    "Tech Club", "FinTech Club", "Marketing Club", "Crypto Society", "Toastmasters"
+]
 
 
-#SESSION STATE DICTIONARY
-session_state_dict = {
-                        "name": '',
-                        "major": '',
-                        "event_categories": [],
-                        "user_keywords": [],
-                        "language": [],
-                        "selected_clubs": [],
-                        "user_email" : ''
-                        }
-
-
-#MAJOR KEYWORD DICTIONARY
 major_keyword_dict = {
                         "Bachelor: BA": ["consulting", "finance", "banking"],
                         "Bachelor: Econ": ["economics", "politics", "finance"],
@@ -22,105 +35,165 @@ major_keyword_dict = {
                         "Bachelor: Computer Science": ["technology"],
                       }
 
+
 clubs_dict = {
                 "AIESEC in St. Gallen": ['networking', 'international', 'economics'],
                 "CEMS Club St. Gallen": ['international', "business", "finance"],
                 "Le Cercle des Francophones (CF)": ['social', 'french', 'party']
                 }
 
-def initiate_session_state():
+#hard-coded list of languages for use in st-widget, would require a language-attribute in the event-instance to come up with multiplication factor for kms
+LANGUAGES = [
+    "English", "Spanish", "Italian", "German", "Turkish", "French"
+]
+
+#hard-coded list of interests for use in st-widget; should be equal to keywords_cloud; import as variable form hard coded list in multipage_layout
+INTERESTS = [
+    "Artistic expression",
+    "Business strategy",
+    "Communication",
+    "Creative thinking",
+    "Critical analysis",
+    "Entrepreneurship",
+    "Event planning",
+    "Innovation",
+    "Leadership",
+    "Management",
+    "Negotiation",
+    "Philosophy",
+    "Presentation",
+    "Problem-solving",
+    "Project management",
+    "Public speaking",
+    "Research",
+    "Social engagement",
+    "Strategy",
+    "Teamwork",
+    "Workshops",
+    "Arts",
+    "Business",
+    "Cultural awareness",
+    "Diplomacy",
+    "Economics",
+    "Environment",
+    "Global issues",
+    "History",
+    "Innovation",
+    "International relations",
+    "Language",
+    "Literature",
+    "Local culture",
+    "Networking",
+    "Philosophy",
+    "Policy",
+    "Politics",
+    "Science",
+    "Social justice",
+    "Sustainability",
+    "Technology",
+    "Trading"
+]
+#hard-coded list of interests for use in st-widget; should be equal to keywords_cloud; import as variable form hard coded list in multipage_layout
+EVENT_TYPES = [
+    "Introduction",
+    "Sport",
+    "Trip",
+    "Panel discussion",
+    "Party",
+    "Recruitment",
+    "Q&A",
+    "Drink",
+    "Networking",
+    "Conference",
+    "Drink/Introduction",
+    "Workshop",
+    "Beerpong Tournament",
+    "Other",
+    "Cultural",
+    "Concert",
+    "Giveaway",
+    "Conference/Food and Wine Tasting",
+    "Karaoke",
+    "Food Tasting",
+    "Food and Drink",
+    "BBQ",
+    "Olma Messen",
+    "Lunch",
+    "Kick-off",
+    "Mini-Golf",
+    "Info event",
+    "Food and Wine Tasting"
+]
+
+     
+
+def get_user_profile():
+    st.subheader("User Profile")
+    st.write("Please answer the questions below to create your User Profile")
+
+
     #NAME
-    if 'name' not in st.session_state:
-        st.session_state['name'] = ''
+    name_input = st.text_input("What is you name?", value=st.session_state['name'])
+    if name_input != '':
+        sh.update_name(name_input)
+    
+    
+    #EMAIL ADDRESS
+    email_input = st.text_input("What is your email address?", value=st.session_state['user_email'])
+    if email_input != '':
+        sh.update_email(email_input)
+
+    #LANGUAGE
+    language_input = st.multiselect("What is your preferred language(s)?", LANGUAGES)
+
+    
 
     #MAJOR
-    if 'major' not in st.session_state:
-        st.session_state['major'] = ''
-
-    #EVENT CATEGORIES LIST
-    if 'event_categories' not in st.session_state:
-        st.session_state['event_categories'] = []
-
-    #USER KEYWORDS LIST
-    if 'user_keywords' not in st.session_state:
-        st.session_state['user_keywords'] = []
-
-    #LANGUAGES LIST
-    if 'language' not in st.session_state:
-        st.session_state['language'] = []
-
-    #SELECTED CLUBS
-    if 'selected_clubs' not in st.session_state:
-        st.session_state['selected_clubs'] = []
-
-    #EMAIL ADDRESS
-    if 'user_email' not in st.session_state:
-        st.session_state['user_email'] = ''
-
-    #EVENT INSTANCES LIST
-    if 'events_instances_list' not in st.session_state:
-        st.session_state['events_instances_list'] = []
+    major_input = st.selectbox("What is your major?", ("-select-", "Bachelor: BA","Bachelor: Econ", "Bachelor: IA",
+                                                                "Bachelor: BLE", "Bachelor: Computer Science"),) #to be completed
+    if major_input != "-select-":
+        sh.update_major(major_input)
     
-    #EVENT INSTANCE VARIABLE
-    if 'event_category' not in st.session_state:
-        st.session_state['event_category'] = ''
 
-    #EVENT RECOMMENDATIONS
-    if 'event_recommendations_list' not in st.session_state:
-        st.session_state['event_recommendations_list'] = []
+    #CLUBS
+    clubs_input = st.multiselect("Which clubs are you a member of or interested in?", STUDENT_CLUBS)
+    
 
 
-#def initiate_session_state_new():
-#    for key, default_value in session_state_dict.items():
-#        if key not in st.session_state:
-#            st.session_state[key] = default_value
+    #EVENT TYPES
+    event_categories_input = st.multiselect("Select all event types you are interested in", EVENT_TYPES,)
 
-#FUNCTIONS (sorted by applicable page)
 
-#User_Profile
-def update_name(name_input):
-    st.session_state['name'] = name_input
+    #INTERESTS = user_keywords
+    interests_input = st.multiselect("Select your interests below", INTERESTS)
 
-def update_major(major_input):
-    st.session_state['major'] = major_input
 
-def update_event_categories(event_categories_input):
-    st.session_state['event_categories'] = event_categories_input
 
-def update_user_keywords(user_keywords_input):
-    st.session_state['user_keywords'] = user_keywords_input
+    
+    #SAVE USER BUTTON
+    #saves temporary lists to permanent session state variable
+    if st.button("Save User Profile"):
+        #PRIMARY SESSION STATE UPDATES
+        #permanently save language input to session state
+        sh.update_language(language_input)
+        #save list of clubs into session state
+        sh.update_selected_clubs(clubs_input)
+        #save event categories input to session state
+        sh.update_event_categories(event_categories_input)
+        #save interests into user_keywords sessions state
+        sh.update_interests(interests_input)
 
-def update_language(language_input):
-    st.session_state['language'] = language_input
+        #SECONDARY SESSION STATE UPDATES
+        #save user_keywords based on selected major
+        sh.update_major_keywords()
+        #update list of user_keywords based on values in st.session_state['selected_clubs']
+        sh.update_clubs_keywords
 
-def update_selected_clubs(clubs_input):
-    st.session_state['selected_clubs'] = clubs_input
 
-def update_email(email_input):
-    st.session_state['user_email'] = email_input
+#EXECUTION
+get_user_profile()
 
-def update_major_keywords():
-    major_keywords_list = []
-    if st.session_state['major'] == "Bachelor: BA":
-        major_keywords_list += major_keyword_dict["Bachelor: BA"]
-    elif st.session_state['major'] == "Bachelor: Econ":
-        major_keywords_list += major_keyword_dict["Bachelor: Econ"]
-    elif st.session_state['major'] == "Bachelor: IA":
-        major_keywords_list += major_keyword_dict["Bachelor: IA"]
-    elif st.session_state['major'] == "Bachelor: BLE":
-        major_keywords_list += major_keyword_dict["Bachelor: BLE"]
-    elif st.session_state['major'] == "Bachelor: Computer Science":
-        major_keywords_list += major_keyword_dict["Bachelor: Computer Science"]
-    st.session_state['user_keywords'] += sorted(set(major_keywords_list))
-
-def update_interests(interests_input):
-    st.session_state['user_keywords'] += interests_input
-
-#fix this    
-def update_clubs_keywords():
-    temp_session_state_copy = st.session_state['selected_clubs']
-    club_keywords_list = []
-    for club in clubs_dict.keys():
-        if club in temp_session_state_copy:
-            club_keywords_list.append(clubs_dict[club])
-    st.session_state['user_keywords'] = temp_session_state_copy + club_keywords_list
+#TEST ONLY - to be removed
+st.subheader("TESTING")
+st.write("TEST entries:")
+st.write(st.session_state)
