@@ -7,22 +7,22 @@ import pandas as pd
 
 # Classe pour les événements
 class Event_profile:
-    def __init__(self, EventID, EventName, EventType, ClubName, EventDescription, StartDate, EndDate, Location):
-        self.EventID = EventID
-        self.EventName = EventName
-        self.EventType = EventType
-        self.ClubName = ClubName
-        self.EventDescription = EventDescription
-        self.StartDate = datetime.strptime(StartDate, '%Y-%m-%d')  # Conversion en datetime
-        self.EndDate = datetime.strptime(EndDate, '%Y-%m-%d')  # Conversion en datetime
-        self.Location = Location
+    def __init__(self, _id, title, type, clubName, description, startDate, endDate, location.text):
+        self._id = EventID
+        self.title = EventName
+        self.type = EventType
+        self.clubName = ClubName
+        self.description = EventDescription
+        self.startDate = datetime.strptime(StartDate, '%Y-%m-%d')  # Conversion en datetime
+        self.endDate = datetime.strptime(EndDate, '%Y-%m-%d')  # Conversion en datetime
+        self.location.text = Location
         self.event_keywords = []
 
     def __repr__(self):
         return (
-            f"Event_profile(EventID={self.EventID!r}, EventName={self.EventName!r}, "
-            f"EventType={self.EventType!r}, ClubName={self.ClubName!r}, "
-            f"StartDate={self.StartDate!r}, EndDate={self.EndDate!r}, Location={self.Location!r}, "
+            f"Event_profile(EventID={self._id!r}, EventName={self.title!r}, "
+            f"EventType={self.type!r}, ClubName={self.clubName!r}, "
+            f"StartDate={self.startDate!r}, EndDate={self.endDate!r}, Location={self.location.text!r}, "
             f"Keywords={self.event_keywords})"
         )
 
