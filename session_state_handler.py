@@ -7,7 +7,7 @@ session_state_dict = {
                         "major": '',
                         "event_categories": [],
                         "user_keywords": [],
-                        "language": '-select-',
+                        "language": [],
                         "selected_clubs": [],
                         "user_email" : ''
                         }
@@ -45,7 +45,7 @@ def initiate_session_state():
     if 'user_keywords' not in st.session_state:
         st.session_state['user_keywords'] = []
 
-    #LANGUAGE
+    #LANGUAGES LIST
     if 'language' not in st.session_state:
         st.session_state['language'] = []
 
@@ -57,13 +57,27 @@ def initiate_session_state():
     if 'user_email' not in st.session_state:
         st.session_state['user_email'] = ''
 
+    #EVENT INSTANCES LIST
+    if 'events_instances_list' not in st.session_state:
+        st.session_state['events_instances_list'] = []
+    
+    #EVENT INSTANCE VARIABLE
+    if 'event_category' not in st.session_state:
+        st.session_state['event_category'] = ''
+
+    #EVENT RECOMMENDATIONS
+    if 'event_recommendations_list' not in st.session_state:
+        st.session_state['event_recommendations_list'] = []
+
 
 #def initiate_session_state_new():
 #    for key, default_value in session_state_dict.items():
 #        if key not in st.session_state:
 #            st.session_state[key] = default_value
 
-#FUNCTIONS
+#FUNCTIONS (sorted by applicable page)
+
+#User_Profile
 def update_name(name_input):
     st.session_state['name'] = name_input
 
@@ -99,11 +113,30 @@ def update_major_keywords():
         major_keywords_list += major_keyword_dict["Bachelor: Computer Science"]
     st.session_state['user_keywords'] += sorted(set(major_keywords_list))
 
+def update_interests(interests_input):
+    st.session_state['user_keywords'] += interests_input
+
 #fix this    
 def update_clubs_keywords():
+    temp_session_state_copy = st.session_state['selected_clubs']
     club_keywords_list = []
-    for club, keywords in clubs_dict.items():
-        if club in st.session_state['selected_clubs']:
-            club_keywords_list.append(clubs_dict(keywords))
-    st.session_state['user_keywords'] += club_keywords_list
+    for club in clubs_dict.keys():
+        if club in temp_session_state_copy:
+            club_keywords_list.append(clubs_dict[club])
+    st.session_state['user_keywords'] = temp_session_state_copy + club_keywords_list
+
+#Browse_Events
+#POTENTIAL FUNCTIONS TO BE ADDED
+#def update_event_keywords(): #combines keywords from temporary keyword list (from keyword expander) with existing session state
+#def update_events_instances_list(): save list to session state
+
+
+
+#REMOVE AFTER TESTING
+'''
+initiate_session_state()
+st.session_state['selected_clubs'] = ["AIESEC in St. Gallen", "CEMS Club St. Gallen"]
+update_clubs_keywords()
+print(st.session_state['user_keywords'])
+'''
 
