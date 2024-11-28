@@ -46,11 +46,6 @@ class Keywords:
         return f"KeywordCloud({self.KeywordCloud})"
 
 # Fonction pour lire les fichiers CSV
-#Fichier Event
-def load_events_with_pandas(file_path):
-    df = pd.read_csv(file_path)
-
-#Clubs and KeywordsCloud
 def read_csv_file(file_path):
    data = []
     with open(file_path, mode='r', encoding='utf-8') as file:
@@ -64,9 +59,7 @@ file_path_events = r"C:\Users\leoru\OneDrive\Desktop\HSG\BA 3rd Semester\Compute
 file_path_clubs = r"C:\Users\leoru\OneDrive\Desktop\HSG\BA 3rd Semester\Computer Science\VS Computer Science\Group 8 Project 20.11.2024\Clubs_file.csv"
 file_path_keywords = r"C:\Users\leoru\OneDrive\Desktop\HSG\BA 3rd Semester\Computer Science\VS Computer Science\Group 8 Project 20.11.2024\Keywords_Cloud.csv"
 
-# Lecture des données
-  df = pd.read_csv(file_path_events)
-#other option: events_data = read_csv_file(file_path_events)
+events_data = read_csv_file(file_path_events)
 clubs_data = read_csv_file(file_path_clubs)
 keywords_data = read_csv_file(file_path_keywords)
 
@@ -96,7 +89,6 @@ for event in events_data:
             Location=event['Location']
         )
         events_instances.append(event_instance)
-#or events_instances = load_events_with_pandas(file_path_events)
 
 # Associer les mots-clés des clubs et les mots-clés globaux aux événements
 for event in events_instances:
