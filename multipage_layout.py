@@ -8,7 +8,7 @@ import pandas as pd
 sh.initiate_session_state()
 
 st.write("This temporarily serves as the data management page; this will be converted to the home page")
-st.write("Instructions: please enter the file path of the database in line 81")
+st.write("Instructions: please enter the file path of the database in line 84")
 
 class Event_profile:
     def __init__(self, _id, title, event_type, clubName, description, startDate, endDate, location_text, language):
