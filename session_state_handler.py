@@ -69,6 +69,9 @@ def initiate_session_state():
     if 'event_recommendations_list' not in st.session_state:
         st.session_state['event_recommendations_list'] = []
 
+    if 'global_keyword_cloud' not in st.session_state:
+        st.session_state['global_keyword_cloud'] = []
+
 
 #def initiate_session_state_new():
 #    for key, default_value in session_state_dict.items():
@@ -139,4 +142,3 @@ st.session_state['selected_clubs'] = ["AIESEC in St. Gallen", "CEMS Club St. Gal
 update_clubs_keywords()
 print(st.session_state['user_keywords'])
 '''
-
