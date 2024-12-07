@@ -81,7 +81,7 @@ def reset_session():
 test_major_BA = Major("Bachelor: BA", ["consulting", "business", "finance"])
 test_major_Econ = Major("Bachelor: Econ", ["economics", "finance", "sustainability"])
 
-db_path = r"C:\Users\leoru\OneDrive\Desktop\HSG\BA 3rd Semester\Computer Science\VS Computer Science\Test_Streamlit/test_file_DB.db"
+db_path = r"test_file_DB.db"
 
 
 connection = sqlite3.connect(db_path)
