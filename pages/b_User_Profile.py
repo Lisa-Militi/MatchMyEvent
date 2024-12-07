@@ -47,6 +47,7 @@ LANGUAGES = [
     "English", "Spanish", "Italian", "German", "Turkish", "French"
 ]
 
+'''
 #hard-coded list of interests for use in st-widget; should be equal to keywords_cloud; import as variable form hard coded list in multipage_layout
 INTERESTS = [
     "Artistic expression",
@@ -93,6 +94,22 @@ INTERESTS = [
     "Technology",
     "Trading"
 ]
+'''
+
+INTERESTS = st.session_state['global_keyword_cloud']
+'''
+['Workshops', 'Volunteer Program',
+ 'Keynote Speech', 'Club Fair', 'Case Competition', 'Guest Lecture',
+ 'Sports Tournament', 'Fundraising', 'Career Fair', 'Social Gathering',
+ 'Tech Talks', 'HSG', 'Community', 'Skill Development',
+ 'Entrepreneurship', 'Entrepreneurship', 'Sustainability',
+ 'Innovation Challenge', 'Community', 'Volunteer Program', 'Oikos', 'Panel Discussion',
+ 'Keynote Speech', 'Sustainability', 'Case Competition', 'Guest Lecture', 'Fundraising', 'Social Gathering',
+ 'Tech Talks', 'Alumni Meet', 'Skill Development',
+ 'Entrepreneurship', 'Entrepreneurship', 'Sustainability',
+ 'Innovation Challenge', 'Community']
+'''
+
 #hard-coded list of interests for use in st-widget; should be equal to keywords_cloud; import as variable form hard coded list in multipage_layout
 EVENT_TYPES = [
     "Introduction",
@@ -189,11 +206,18 @@ def get_user_profile():
         #update list of user_keywords based on values in st.session_state['selected_clubs']
         sh.update_clubs_keywords
 
+def reset_user():
+    if st.button("Reset User"):
+        sh.initiate_session_state()
+
 
 #EXECUTION
 get_user_profile()
+reset_user()
 
 #TEST ONLY - to be removed
 st.subheader("TESTING")
 st.write("TEST entries:")
 st.write(st.session_state)
+
+
