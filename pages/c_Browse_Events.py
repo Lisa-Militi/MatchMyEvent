@@ -50,6 +50,7 @@ if ml.events_instances:
 
 st.session_state['ml.events_instances_list'] = ml.events_instances
 
+
 # Connexion à la base de données
 db_path = '/mnt/data/test_file_DB.db'
 connection = sqlite3.connect(db_path)
@@ -62,7 +63,51 @@ events_data = connection.execute(
 clubs_data = connection.execute(
     'SELECT clubName FROM club_profile_list'
 ).fetchall()
+# Créer des classes pour les instances
+class Event:
+    def __init__(self, _id, title, event_type, clubName, description, startDate, endDate, location_text, language):
+        self._id = _id
+        self.title = title
+        self.event_type = event_type
+        self.clubName = clubName
+        self.description = description
+        self.startDate = startDate
+        self.endDate = endDate
+        self.location_text = location_text
+        self.language = language
+        self.event_keywords = []
 
+class Club:
+    def __init__(self, clubName, InterestKeywords):
+        self.clubName = clubName
+        self.InterestKeywords = InterestKeywords.split(',')
+
+# Créer les instances des clubs
+clubs_instances = []
+for club in clubs_data:
+    clubs_instances.append(Club(clubName=club[0], InterestKeywords=club[1]))
+
+# Créer les instances des événements
+events_instances = []
+for line in events_data:
+    event_instance = Event(
+        _id=line[0],
+        title=line[1],
+        event_type=line[2],
+        clubName=line[3],
+        description=line[4],
+        startDate=line[5],
+        endDate=line[6],
+        location_text=line[7],
+        language=line[8]
+    )
+    events_instances.append(event_instance)
+
+# Associer les mots-clés des clubs aux événements
+for event in events_instances:
+    for club in clubs_instances:
+        if event.clubName == club.clubName:
+            event.event_keywords.extend(club.InterestKeywords)
 # Convertir en DataFrame pour affichage
 events_df = pd.DataFrame([{
     "EventName": event.title,
