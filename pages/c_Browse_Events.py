@@ -49,93 +49,31 @@ if ml.events_instances:
     st.write(f"Description: {ml.events_instances[0].description}")
 
 st.session_state['ml.events_instances_list'] = ml.events_instances
+import random
+import pandas as pd
+import streamlit as st
 
-
-# Connexion à la base de données
-db_path = '/mnt/data/test_file_DB.db'
-connection = sqlite3.connect(db_path)
-
-# Charger les données des tables
-events_data = connection.execute(
-    'SELECT _id, EventName, EventType, ClubName, EventDescription, startDate, endDate, Location_1, Language FROM events_file'
-).fetchall()
-
-clubs_data = connection.execute(
-    'SELECT clubName FROM club_profile_list'
-).fetchall()
-# Créer des classes pour les instances
-class Event:
-    def __init__(self, _id, title, event_type, clubName, description, startDate, endDate, location_text, language):
-        self._id = _id
-        self.title = title
-        self.event_type = event_type
-        self.clubName = clubName
-        self.description = description
-        self.startDate = startDate
-        self.endDate = endDate
-        self.location_text = location_text
-        self.language = language
-        self.event_keywords = []
-
-class Club:
-    def __init__(self, clubName, InterestKeywords):
-        self.clubName = clubName
-        self.InterestKeywords = InterestKeywords.split(',')
-
-# Créer les instances des clubs
-clubs_instances = []
-for club in clubs_data:
-    clubs_instances.append(Club(clubName=club[0], InterestKeywords=club[1]))
-
-# Créer les instances des événements
-events_instances = []
-for line in events_data:
-    event_instance = Event(
-        _id=line[0],
-        title=line[1],
-        event_type=line[2],
-        clubName=line[3],
-        description=line[4],
-        startDate=line[5],
-        endDate=line[6],
-        location_text=line[7],
-        language=line[8]
-    )
-    events_instances.append(event_instance)
-
-# Associer les mots-clés des clubs aux événements
-for event in events_instances:
-    for club in clubs_instances:
-        if event.clubName == club.clubName:
-            event.event_keywords.extend(club.InterestKeywords)
-# Convertir en DataFrame pour affichage
-events_df = pd.DataFrame([{
-    "EventName": event.title,
-    "EventType": event.event_type,
-    "ClubName": event.clubName,
-    "EventDescription": event.description,
-    "startDate": event.startDate,
-    "endDate": event.endDate,
-    "Location": event.location_text,
-    "Language": event.language
-} for event in events_instances])
-
-# Affichage sur Streamlit
-st.title("Events per Clubs")
-clubs = events_df["ClubName"].unique()
-
-for club in clubs:
-    st.subheader(f"Événements organisés par {club}")
-    club_events = events_df[events_df["ClubName"] == club]
-    st.dataframe(
-        club_events,
-        column_config={
-            "EventName": "Nom de l'Événement",
-            "EventType": st.column_config.TextColumn("Type d'Événement"),
-            "EventDescription": "Description",
-            "startDate": st.column_config.DateColumn("Date de Début"),
-            "endDate": st.column_config.DateColumn("Date de Fin"),
-            "Language": st.column_config.TextColumn("Langue"),
-        },
-        hide_index=True,
-    )
+df = pd.DataFrame(
+    {
+        "name": ["Roadmap", "Extras", "Issues"],
+        "url": ["https://roadmap.streamlit.app", "https://extras.streamlit.app", "https://issues.streamlit.app"],
+        "stars": [random.randint(0, 1000) for _ in range(3)],
+        "views_history": [[random.randint(0, 5000) for _ in range(30)] for _ in range(3)],
+    }
+)
+st.dataframe(
+    df,
+    column_config={
+        "name": "App name",
+        "stars": st.column_config.NumberColumn(
+            "Github Stars",
+            help="Number of stars on GitHub",
+            format="%d ⭐",
+        ),
+        "url": st.column_config.LinkColumn("App URL"),
+        "views_history": st.column_config.LineChartColumn(
+            "Views (past 30 days)", y_min=0, y_max=5000
+        ),
+    },
+    hide_index=True,
+)
