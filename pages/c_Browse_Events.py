@@ -9,26 +9,21 @@ import multipage_layout as ml
 #from multipage_layout import Keywords
 
 st.title('Events Browser')
-
-
-# Vérifier les résultats
-for event in ml.events_instances:
-    print(event)
     
 st.write('Complete list of events per clubs:')
 
-'''
-    
+#Clubs
+st.header("_Streamlit_ is :blue[cool] :sunglasses:")
+st.header("This is a header with a divider", divider="gray")
+st.header("These headers have rotating dividers", divider=True)
+st.header("One", divider=True)
+st.header("Two", divider=True)
+st.header("Three", divider=True)
+st.header("Four", divider=True)
 
-# Display a specific instance (e.g., the first one)
+
 if ml.events_instances:
-    print("\nFirst instance:")
-    print(ml.events_instances[0])
-
-
-# Access specific attributes of an instance
-if ml.events_instances:
-    print("\nAttributes of the first instance:")
+    st.write("\nAttributes of the first instance:")
     print(f"EventName: {ml.events_instances[0].title}")
     print(f"StartDate: {ml.events_instances[0].startDate}")
     print(f"Event Type: {ml.events_instances[0].event_type}")
