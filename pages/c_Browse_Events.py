@@ -50,43 +50,47 @@ if ml.events_instances:
 
 st.session_state['ml.events_instances_list'] = ml.events_instances
 
-import sqlite3
-import pandas as pd
-import streamlit as st
+# Connexion à la base de données
+db_path = '/mnt/data/test_file_DB.db'
+connection = sqlite3.connect(db_path)
 
-# Charger la base de données SQLite
-db_path = 'test_file_DB.db'
+# Charger les données des tables
+events_data = connection.execute(
+    'SELECT _id, EventName, EventType, ClubName, EventDescription, startDate, endDate, Location_1, Language FROM events_file'
+).fetchall()
 
-# Fonction pour charger les données de la base de données
-def load_data():
-    with sqlite3.connect(db_path) as conn:
-        query = """
-        SELECT 
-            ClubName,
-            EventName, 
-            EventType, 
-            EventDescription, 
-            startDate, 
-            endDate, 
-            Language
-        FROM events_table
-        """
-        df = pd.read_sql_query(query, conn)
-    return df
+clubs_data = connection.execute(
+    'SELECT clubName FROM club_profile_list'
+).fetchall()
 
-# Charger les données
-data = load_data()
+# Convertir en DataFrame pour affichage
+events_df = pd.DataFrame([{
+    "EventName": event.title,
+    "EventType": event.event_type,
+    "ClubName": event.clubName,
+    "EventDescription": event.description,
+    "startDate": event.startDate,
+    "endDate": event.endDate,
+    "Location": event.location_text,
+    "Language": event.language
+} for event in events_instances])
 
-# Grouper les données par club
-clubs = data['ClubName'].unique()
+# Affichage sur Streamlit
+st.title("Events per Clubs")
+clubs = events_df["ClubName"].unique()
 
-# Créer une interface Streamlit
-st.title("Événements par club")
-
-# Afficher les tableaux pour chaque club
 for club in clubs:
     st.subheader(f"Événements organisés par {club}")
-    club_data = data[data['ClubName'] == club]
-    st.dataframe(club_data[['EventName', 'EventType', 'EventDescription', 'startDate', 'endDate', 'Language']])
-
-
+    club_events = events_df[events_df["ClubName"] == club]
+    st.dataframe(
+        club_events,
+        column_config={
+            "EventName": "Nom de l'Événement",
+            "EventType": st.column_config.TextColumn("Type d'Événement"),
+            "EventDescription": "Description",
+            "startDate": st.column_config.DateColumn("Date de Début"),
+            "endDate": st.column_config.DateColumn("Date de Fin"),
+            "Language": st.column_config.TextColumn("Langue"),
+        },
+        hide_index=True,
+    )
