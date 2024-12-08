@@ -29,9 +29,6 @@ if ml.events_instances:
     print(ml.events_instances[0])
 
 
-
-
-
 # Access specific attributes of an instance
 if ml.events_instances:
     print("\nAttributes of the first instance:")
