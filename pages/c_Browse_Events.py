@@ -47,9 +47,18 @@ if ml.events_instances:
 
 st.session_state['ml.events_instances_list'] = ml.events_instances
 
-db_path = '/mnt/data/test_file_DB.db'
+db_path = r"test_file_DB.db"
+
 
 connection = sqlite3.connect(db_path)
+
+cur1 = connection.cursor()
+events_data = cur1.execute('SELECT _id, EventName, EventType, ClubName, EventDescription, startDate, endDate, Location_1, Language FROM events_file')
+cur2 = connection.cursor()
+clubs_data = cur2.execute('SELECT clubName, InterestKeywords FROM club_profile_list')
+cur3 = connection.cursor()
+keywords_cloud_cursor = cur3.execute('SELECT keywords FROM keyword_cloud')
+
 query = """
 SELECT 
     EventName, 
@@ -61,7 +70,7 @@ SELECT
     startDate, 
     endDate, 
     Location_1
-FROM events_file
+FROM events_data
 """
 events_df = pd.read_sql_query(query, connection)
 connection.close()
