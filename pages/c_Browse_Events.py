@@ -10,16 +10,31 @@ import multipage_layout as ml
 
 st.title('Events Browser')
     
-st.write('Complete list of events per clubs:')
+st.header('Complete list of events per clubs:')
 
 #Clubs
-st.header("_Streamlit_ is :blue[cool] :sunglasses:")
-st.header("This is a header with a divider", divider="gray")
-st.header("These headers have rotating dividers", divider=True)
-st.header("One", divider=True)
-st.header("Two", divider=True)
-st.header("Three", divider=True)
-st.header("Four", divider=True)
+st.header("Aargauer Verein")
+st.header("ACM at the HSG", divider="gray")
+st.header("Academic SurfClub", divider=True)
+st.header("Ad-Hoc Economics", divider=True)
+st.header("Africa Association", divider=True)
+st.header("Akademikerhaus", divider=True)
+st.header("Albanian Student Association", divider=True)
+st.header("Amnesty International", divider=True)
+st.header("Amplify", divider=True)
+st.header("Asia Club", divider=True)
+st.header("Athletes Club", divider=True)
+st.header("AV Kybelia", divider=True)
+st.header("AV Mercuria", divider=True)
+st.header("AV Steinacher", divider=True)
+st.header("Aviation Club", divider=True)
+st.header("BereichG", divider=True)
+st.header("Bernerverein", divider=True)
+st.header("Calanda B√ºndnerverein", divider=True)
+st.header("Amplify", divider=True)
+st.header("Asia Club", divider=True)
+st.header("Athletes Club", divider=True)
+st.header("AV Kybelia", divider=True)
 
 
 if ml.events_instances:
