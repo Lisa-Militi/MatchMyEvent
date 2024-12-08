@@ -18,9 +18,8 @@ for event in ml.events_instances:
 #TEST
 # Display all event instances with print
 '''
-print("Complete list of events:")
-for event in ml.events_instances:
-    print(event)
+st.write('Complete list of events per clubs:')
+
 '''
     
 
