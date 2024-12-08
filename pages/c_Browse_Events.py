@@ -13,6 +13,7 @@ st.title('Events Browser')
 st.header('Complete list of events per clubs:')
 
 #Clubs
+#do it through calling the instances
 if ml.clubs_instances:
     def display_clubs(clubs_data):
         for clubName in clubs_instances:
