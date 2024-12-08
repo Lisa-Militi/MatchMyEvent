@@ -49,31 +49,41 @@ if ml.events_instances:
     st.write(f"Description: {ml.events_instances[0].description}")
 
 st.session_state['ml.events_instances_list'] = ml.events_instances
+
 import random
 import pandas as pd
 import streamlit as st
 
-df = pd.DataFrame(
-    {
-        "name": ["Roadmap", "Extras", "Issues"],
-        "url": ["https://roadmap.streamlit.app", "https://extras.streamlit.app", "https://issues.streamlit.app"],
-        "stars": [random.randint(0, 1000) for _ in range(3)],
-        "views_history": [[random.randint(0, 5000) for _ in range(30)] for _ in range(3)],
-    }
-)
+db_path = '/mnt/data/test_file_DB.db'
+
+connection = sqlite3.connect(db_path)
+query = """
+SELECT 
+    EventName, 
+    ClubName, 
+    ClubCategory, 
+    EventType, 
+    Language, 
+    EventDescription, 
+    startDate, 
+    endDate, 
+    Location_1
+FROM events_file
+"""
+events_df = pd.read_sql_query(query, connection)
+connection.close()
+
 st.dataframe(
-    df,
+    events_df,
     column_config={
-        "name": "App name",
-        "stars": st.column_config.NumberColumn(
-            "Github Stars",
-            help="Number of stars on GitHub",
-            format="%d ⭐",
-        ),
-        "url": st.column_config.LinkColumn("App URL"),
-        "views_history": st.column_config.LineChartColumn(
-            "Views (past 30 days)", y_min=0, y_max=5000
-        ),
+        "ClubName": "Club",
+        "EventName": "Event",
+        "startDate": "Start",
+        "endDate": "End",
+        "EventType": "Type",
+        "Language": "Language",
+        "EventDescription": "Description",
+        "Location_1": "Location",
     },
     hide_index=True,
 )
