@@ -13,6 +13,11 @@ st.title('Events Browser')
 st.header('Complete list of events per clubs:')
 
 #Clubs
+if ml.clubs_instances:
+    def display_clubs(clubs_data):
+        for clubName in clubs_instances:
+             print(f"Club: {ml.clubs_instances[0].clubName}")
+            
 st.header("Aargauer Verein", divider="gray")
 st.header("ACM at the HSG", divider=True)
 st.header("Academic SurfClub", divider=True)
