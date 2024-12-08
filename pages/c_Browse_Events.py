@@ -50,4 +50,43 @@ if ml.events_instances:
 
 st.session_state['ml.events_instances_list'] = ml.events_instances
 
+import sqlite3
+import pandas as pd
+import streamlit as st
+
+# Charger la base de données SQLite
+db_path = 'test_file_DB.db'
+
+# Fonction pour charger les données de la base de données
+def load_data():
+    with sqlite3.connect(db_path) as conn:
+        query = """
+        SELECT 
+            ClubName,
+            EventName, 
+            EventType, 
+            EventDescription, 
+            startDate, 
+            endDate, 
+            Language
+        FROM events_table
+        """
+        df = pd.read_sql_query(query, conn)
+    return df
+
+# Charger les données
+data = load_data()
+
+# Grouper les données par club
+clubs = data['ClubName'].unique()
+
+# Créer une interface Streamlit
+st.title("Événements par club")
+
+# Afficher les tableaux pour chaque club
+for club in clubs:
+    st.subheader(f"Événements organisés par {club}")
+    club_data = data[data['ClubName'] == club]
+    st.dataframe(club_data[['EventName', 'EventType', 'EventDescription', 'startDate', 'endDate', 'Language']])
+
 
