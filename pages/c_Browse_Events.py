@@ -15,9 +15,6 @@ st.title('Events Browser')
 for event in ml.events_instances:
     print(event)
     
-#TEST
-# Display all event instances with print
-'''
 st.write('Complete list of events per clubs:')
 
 '''
