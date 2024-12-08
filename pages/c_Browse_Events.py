@@ -50,10 +50,6 @@ if ml.events_instances:
 
 st.session_state['ml.events_instances_list'] = ml.events_instances
 
-import random
-import pandas as pd
-import streamlit as st
-
 db_path = '/mnt/data/test_file_DB.db'
 
 connection = sqlite3.connect(db_path)
