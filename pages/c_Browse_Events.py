@@ -44,21 +44,3 @@ def browse_events():
 # Exécuter la fonction pour afficher la page
 if __name__ == "__main__":
     browse_events()
-
-if ml.events_instances:
-    st.write("\nAttributes of the first instance:")
-    print(f"EventName: {ml.events_instances[0].title}")
-    print(f"StartDate: {ml.events_instances[0].startDate}")
-    print(f"Event Type: {ml.events_instances[0].event_type}")
-    print(f"Keywords: {ml.events_instances[0].event_keywords}")
-    print(f"Description: {ml.events_instances[0].description}")
-
-    st.write("\nAttributes of the first instance:")
-    st.write(f"EventName: {ml.events_instances[0].title}")
-    st.write(f"Event Type: {ml.events_instances[0].event_type}")
-    st.write(f"StartDate: {ml.events_instances[0].startDate}")
-    st.write(f"Keywords: {ml.events_instances[0].event_keywords}")
-    st.write(f"Description: {ml.events_instances[0].description}")
-
-st.session_state['ml.events_instances_list'] = ml.events_instances
-
