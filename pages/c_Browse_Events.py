@@ -42,5 +42,3 @@ def browse_events():
 # Exécuter la fonction pour afficher la page
 if __name__ == "__main__":
     browse_events()
-
-st.subheader("{ml.events_instances[0].EventName}")
