@@ -17,7 +17,8 @@ st.markdown(
     """,
     unsafe_allow_html=True,
 )
-st.markdown("<h1 class=""centered"">Browse Events </h1>", unsafe_allow_html=True)   
+st.markdown("<h1 class=""centered"">Browse Events </h1>", unsafe_allow_html=True)
+
 def format_date(date_str):
     """Convertir une chaîne de date en format dd-mm-yyyy."""
     try:
