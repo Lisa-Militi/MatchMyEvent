@@ -39,7 +39,7 @@ def format_date(date_str):
         return date_str
 
 def browse_events():
-    st.title("Clubs and their respective 2024 events:")
+    st.subheader("Clubs and their respective 2024 events:")
 
     # Vérifier si les instances existent
     if not hasattr(ml, 'clubs_instances') or not hasattr(ml, 'events_instances'):
