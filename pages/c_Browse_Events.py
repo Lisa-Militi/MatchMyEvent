@@ -49,9 +49,11 @@ def browse_events():
     # Tri des clubs par ordre alphabétique
     sorted_clubs = sorted(ml.clubs_instances, key=lambda club: club.clubName)
 
-    # Parcourir les clubs
+    # Display clubs and their events
     for club in sorted_clubs:
-        st.header(f"{club.clubName}")
+        # Club name in green
+        st.markdown(f"<h2 style='color: green;'>{club.clubName}</h2>", unsafe_allow_html=True)
+        
 
         # Trouver les événements associés à ce club
         club_events = [event for event in ml.events_instances if event.clubName == club.clubName]
