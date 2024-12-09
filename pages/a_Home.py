@@ -22,7 +22,7 @@ st.markdown('<h4 class="centered">Don\'t worry, this page\'s for you</h4>', unsa
 st.markdown('<p class="centered">We\'ve created an algorithm that will perfectly match your preferences</p>', unsafe_allow_html=True)
 
 # URL brute de l'image
-image_url = "https://raw.githubusercontent.com/your-username/your-repo/main/image.png"
+image_url = "MatchMyEvent Logo.tiff"
 
 # Afficher l'image
 st.title("MatchMyEvent Logo")
