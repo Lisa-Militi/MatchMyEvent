@@ -3,14 +3,9 @@ import session_state_handler as ss_handler
 import streamlit as st
 from PIL import Image
 import requests
-from io import BytesIO
-
-import streamlit as st
-from PIL import Image
-import requests
 
 # URL brute de l'image sur GitHub
-image_url = ""
+image_url = "MatchMyEvent Logo.tiff"
 
 try:
     # Charger l'image depuis l'URL
