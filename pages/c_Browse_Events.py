@@ -16,7 +16,7 @@ def browse_events():
     
     for club in sorted_clubs:
         # Afficher le nom du club en en-tête
-        st.title(f"{club.clubName}", divider="green")
+        st.title(f"{club.clubName}", divider="gray")
         
         # Récupérer les événements associés à ce club
         club_events = [event for event in ml.events_instances if event.clubName == club.clubName]
