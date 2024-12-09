@@ -1,6 +1,11 @@
 import streamlit as st
 import session_state_handler as ss_handler
 
+# URL brute de l'image
+image_url = ""
+
+# Afficher l'image
+st.image(image_url, caption="MatchMyEvent Logo", use_column_width=True)
 
 # Ajouter le style CSS pour centrer le contenu
 st.markdown(
