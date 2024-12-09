@@ -1,21 +1,10 @@
 import streamlit as st
 import session_state_handler as ss_handler
 
-st.set_page_config(
-    page_title="Welcome to MatchMyEvent!",
-    page_icon="✨",
-    layout="centered"
-)
 
-st.title("Welcome to MatchMyEvent!")
+st.title(✨"Welcome to MatchMyEvent!"✨)
 
-#image_path = "/Users/alice/Desktop/ClubsHSG.png"  
-#st.image(image_path, caption="HSG Clubs", use_column_width=True)
-
-st.markdown(
-    """
-    *The Webpage to guide you through HSG campus events*  
-    *Do you feel overwhelmed by the too big amount of clubs and events proposed at HSG?* Don't worry, this page's for you.*
-    *We've created an algorithm that will perfectly match your preferences.*""",
-    unsafe_allow_html=True
-)
+st.subheader("The Webpage to guide you through HSG campus events")
+st.subheader("Do you feel overwhelmed by the too big amount of clubs and events proposed at HSG?")
+st.subheader("Don't worry, this page's for you")
+st.write("We've created an algorithm that will perfectly match your preferences")
