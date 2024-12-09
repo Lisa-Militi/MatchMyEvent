@@ -8,8 +8,6 @@ import multipage_layout as ml
 #from multipage_layout import Club
 #from multipage_layout import Keywords
     
-st.header('Complete list of events per clubs:')
-
 def browse_events():
     st.title("Events browser")
     
@@ -18,7 +16,7 @@ def browse_events():
     
     for club in sorted_clubs:
         # Afficher le nom du club en en-tête
-        st.header(f"{club.clubName}", divider=True)
+        st.title(f"{club.clubName}", divider="green")
         
         # Récupérer les événements associés à ce club
         club_events = [event for event in ml.events_instances if event.clubName == club.clubName]
