@@ -25,5 +25,5 @@ st.markdown('<p class="centered">We\'ve created an algorithm that will perfectly
 image_url = "MatchMyEvent Logo.tiff"
 
 # Afficher l'image
-st.image(image_url, caption="MatchMyEvent Logo", use_column_width=True)
+st.image(image_url, use_column_width=True)
     
