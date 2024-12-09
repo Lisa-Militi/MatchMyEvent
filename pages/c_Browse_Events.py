@@ -19,13 +19,6 @@ st.markdown(
 )
 st.markdown("<h1 class=""centered"">Browse Events </h1>", unsafe_allow_html=True)
 
-st.write(ml.clubs_instances)
-st.write(ml.events_instances)
-st.write(f"Event Type: {ml.events_instances[0].event_type}")
-st.write(f"StartDate: {ml.events_instances[0].startDate}")
-st.write(f"Keywords: {ml.events_instances[0].event_keywords}")
-st.write(f"Description: {ml.events_instances[0].description}")
-
 def format_date(date_str):
     """Convertir une chaîne de date en format dd-mm-yyyy."""
     try:
