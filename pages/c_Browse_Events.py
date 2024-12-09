@@ -72,6 +72,10 @@ def browse_events():
             st.write("No events available for this club.")
         st.markdown("===")  # Ligne de séparation entre les clubs
 
+ # Add a green line separator after each club
+        st.markdown("<hr style='border: 2px solid green;'>", unsafe_allow_html=True)
+
+
 # Lancer la fonction principale
 if __name__ == "__main__":
     browse_events()
