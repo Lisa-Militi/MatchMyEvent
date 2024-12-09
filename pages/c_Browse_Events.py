@@ -27,7 +27,7 @@ def format_date(date_str):
         return date_str
 
 def browse_events():
-    st.title("Events Browser")
+    st.subheader("Events per Club 2024")
 
     # Check if instances are loaded
     if not hasattr(ml, 'clubs_instances') or not hasattr(ml, 'events_instances'):
