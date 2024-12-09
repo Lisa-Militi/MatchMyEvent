@@ -7,7 +7,7 @@ import multipage_layout as ml
 #from multipage_layout import ml.events_instances
 #from multipage_layout import Club
 #from multipage_layout import Keywords
-
+st.markdown(
     """
     <style>
     .centered {
