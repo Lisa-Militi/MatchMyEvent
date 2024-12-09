@@ -1,13 +1,6 @@
 import streamlit as st
 import session_state_handler as ss_handler
 import streamlit as st
-
-# URL brute de l'image
-image_url = "https://raw.githubusercontent.com/your-username/your-repo/main/image.png"
-
-# Afficher l'image
-st.title("MatchMyEvent Logo")
-st.image(image_url, caption="MatchMyEvent Logo", use_column_width=True)
     
 # Ajouter le style CSS pour centrer le contenu
 st.markdown(
@@ -27,3 +20,11 @@ st.markdown('<p class="centered">The webpage to guide you through HSG campus eve
 st.markdown('<h4 class="centered">Do you feel overwhelmed by the too big amount of clubs and events proposed at HSG?</h4>', unsafe_allow_html=True)
 st.markdown('<h4 class="centered">Don\'t worry, this page\'s for you</h4>', unsafe_allow_html=True)
 st.markdown('<p class="centered">We\'ve created an algorithm that will perfectly match your preferences</p>', unsafe_allow_html=True)
+
+# URL brute de l'image
+image_url = "https://raw.githubusercontent.com/your-username/your-repo/main/image.png"
+
+# Afficher l'image
+st.title("MatchMyEvent Logo")
+st.image(image_url, caption="MatchMyEvent Logo", use_column_width=True)
+    
