@@ -46,15 +46,21 @@ def browse_events():
         st.error("Clubs or events data not loaded. Please check your data.")
         return
         
-   # Get all club names
+     # Get all club names
     club_names = [club.clubName for club in ml.clubs_instances]
 
-    # Add a multiselect dropdown for clubs
+    # Add a multiselect dropdown for clubs with no default selection
     selected_clubs = st.multiselect(
         "Select Clubs to Display:",
         options=sorted(club_names),
-        default=sorted(club_names)  # Default: all clubs are selected
+        default=[]  # Default: no clubs selected
     )
+
+    # If no clubs are selected, display a message
+    if not selected_clubs:
+        st.info("Please select one or more clubs from the dropdown above.")
+        return
+        
     # Tri des clubs par ordre alphabétique
     sorted_clubs = sorted(ml.clubs_instances, key=lambda club: club.clubName)
 
