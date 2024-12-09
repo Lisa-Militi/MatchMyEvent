@@ -17,7 +17,7 @@ st.markdown(
     """,
     unsafe_allow_html=True,
 )
-  
+st.markdown("<h1 class=""centered"">Browse Events </h1>", unsafe_allow_html=True)   
 def format_date(date_str):
     """Convertir une chaîne de date en format dd-mm-yyyy."""
     try:
@@ -29,9 +29,7 @@ def format_date(date_str):
         # Retourner la date d'origine si elle ne correspond pas au format attendu
         return date_str
         
-def browse_events():
-   st.markdown("<h1 class=""centered"">Browse Events </h1>", unsafe_allow_html=True)    
-
+def browse_events():  
     # Tri des clubs par ordre alphabétique
     sorted_clubs = sorted(ml.clubs_instances, key=lambda club: club.clubName)
 
