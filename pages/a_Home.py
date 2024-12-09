@@ -15,7 +15,7 @@ st.markdown(
 )
 
 # Contenu de la page avec la classe CSS centrée
-st.markdown('<h1 class="centered">Welcome to MatchMyEvent:sparkles:</h1>', unsafe_allow_html=True)
+st.markdown('<h1 class="centered">Welcome to MatchMyEvent :sparkles: </h1>', unsafe_allow_html=True)
 st.markdown('<h3 class="centered">The Webpage to guide you through HSG campus events</h3>', unsafe_allow_html=True)
 st.markdown('<h4 class="centered">Do you feel overwhelmed by the too big amount of clubs and events proposed at HSG?</h4>', unsafe_allow_html=True)
 st.markdown('<h4 class="centered">Don\'t worry, this page\'s for you</h4>', unsafe_allow_html=True)
