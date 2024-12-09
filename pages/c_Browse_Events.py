@@ -7,7 +7,17 @@ import multipage_layout as ml
 #from multipage_layout import ml.events_instances
 #from multipage_layout import Club
 #from multipage_layout import Keywords
-    
+
+    """
+    <style>
+    .centered {
+        text-align: center;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
+  
 def format_date(date_str):
     """Convertir une chaîne de date en format dd-mm-yyyy."""
     try:
@@ -20,7 +30,7 @@ def format_date(date_str):
         return date_str
         
 def browse_events():
-    st.title("Events Browser")
+   st.markdown("<h1 class=""centered"">Browse Events </h1>", unsafe_allow_html=True)    
 
     # Tri des clubs par ordre alphabétique
     sorted_clubs = sorted(ml.clubs_instances, key=lambda club: club.clubName)
