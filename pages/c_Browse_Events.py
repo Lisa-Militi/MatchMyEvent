@@ -45,7 +45,16 @@ def browse_events():
     if not hasattr(ml, 'clubs_instances') or not hasattr(ml, 'events_instances'):
         st.error("Clubs or events data not loaded. Please check your data.")
         return
+        
+   # Get all club names
+    club_names = [club.clubName for club in ml.clubs_instances]
 
+    # Add a multiselect dropdown for clubs
+    selected_clubs = st.multiselect(
+        "Select Clubs to Display:",
+        options=sorted(club_names),
+        default=sorted(club_names)  # Default: all clubs are selected
+    )
     # Tri des clubs par ordre alphabétique
     sorted_clubs = sorted(ml.clubs_instances, key=lambda club: club.clubName)
 
