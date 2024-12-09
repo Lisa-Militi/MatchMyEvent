@@ -2,7 +2,7 @@ import streamlit as st
 import session_state_handler as ss_handler
 
 # URL brute de l'image
-image_url = ""
+image_url = "MatchMyEvent Logo.tiff"
 
 # Afficher l'image
 st.image(image_url, caption="MatchMyEvent Logo", use_column_width=True)
