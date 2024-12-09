@@ -43,4 +43,4 @@ def browse_events():
 if __name__ == "__main__":
     browse_events()
 
-st.subheader("{ml.events_instances[0].EventName}"
+st.subheader("{ml.events_instances[0].EventName}")
