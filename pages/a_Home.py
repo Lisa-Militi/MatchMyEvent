@@ -1,29 +1,13 @@
 import streamlit as st
 import session_state_handler as ss_handler
 import streamlit as st
-from PIL import Image
-import requests
 
-# URL brute de l'image sur GitHub
-image_url = r"MatchMyEvent Logo.tiff"
+# URL brute de l'image
+image_url = "https://raw.githubusercontent.com/your-username/your-repo/main/image.png"
 
-try:
-    # Charger l'image depuis l'URL
-    response = requests.get(image_url)
-    response.raise_for_status()  # Vérifie si la requête a réussi
-    image = Image.open(BytesIO(response.content))
-
-    # Réduire la taille de l'image (diviser les dimensions par 3)
-    width, height = image.size
-    resized_image = image.resize((width // 3, height // 3))
-
-    # Afficher l'image redimensionnée dans Streamlit
-    st.image(resized_image, caption="MatchMyEvent Logo (Reduced Size)", use_column_width=False)
-
-except requests.exceptions.RequestException as e:
-    st.error(f"Error loading image: {e}")
-except Exception as e:
-    st.error(f"An error occurred: {e}")
+# Afficher l'image
+st.title("MatchMyEvent Logo")
+st.image(image_url, caption="MatchMyEvent Logo", use_column_width=True)
     
 # Ajouter le style CSS pour centrer le contenu
 st.markdown(
