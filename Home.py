@@ -86,7 +86,7 @@ def reset_session():
 
 #DATABASE CONNECTION using sqlite3-library
 #specification of file path using raw string; WHEN USING LOCAL COPIES, ENTER FILE PATH HERE
-db_path = r"events_database.py"
+db_path = r"events_database.db"
 connection = sqlite3.connect(db_path)
 
 #using cursors to access data in the database
