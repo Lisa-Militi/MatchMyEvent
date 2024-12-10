@@ -8,7 +8,7 @@ import pandas as pd
 
 #Before you go on to examine this project, we would like to briefly explain the layout of this project.
 
-#As should evident, this project makes use of a multipage layout to structure both the code and user interface,
+#As should be evident, this project makes use of a multipage layout to structure both the code and user interface,
 # while also facilitating a way to split coding work between group members.
 
 #This here is the entry-page into the multipage layout of the code; we recommend that you proceed to the session_state_handler-file next,
@@ -86,7 +86,7 @@ def reset_session():
 
 #DATABASE CONNECTION using sqlite3-library
 #specification of file path using raw string; WHEN USING LOCAL COPIES, ENTER FILE PATH HERE
-db_path = r"C:\Users\leoru\OneDrive\Desktop\HSG\BA 3rd Semester\Computer Science\VS Computer Science\Group 8 Project 20.11.2024\events_database.db"
+db_path = r"events_database.py"
 connection = sqlite3.connect(db_path)
 
 #using cursors to access data in the database
