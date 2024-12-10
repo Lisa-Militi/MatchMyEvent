@@ -1,36 +1,38 @@
 import streamlit as st
 
-#This is the session_state_handler file. It is invisible to the user as it only serves as a coordinator for data being passed through the system.
-#It contains all the session state infrastructure, consisting of the definition and initialization of the session states,
-#as well as any functions that serve the purpose of updating or clearing session states.
-#This page helps to coordinate information that needs to be saved during a session by using session states.
-#It allows information to be stored centrally and to be called wherever needed through the use of st.session_state
+# This is the session_state_handler file.  It is invisible to the user as it only serves as a coordinator for data being passed through the system.
+# It contains all the session state infrastructure, consisting of the definition and initialization of the session states,
+# as well as any functions that serve the purpose of updating or clearing session states.
+# This page helps to coordinate information that needs to be saved during a session by using session states.
+# It allows information to be stored centrally and to be called wherever needed through the use of st.session_state.
+# This page further only contains one constant as well as all of the functions that are necessary that the session state infrastructure works.
 
 
-#SESSION STATE DICTIONARY -> check redundancy
-session_state_dict = {
-                        "name": '',
-                        "major": '',
-                        "event_categories": [],
-                        "user_keywords": [],
-                        "language": [],
-                        "selected_clubs": [],
-                        "user_email" : ''
-                        }
 
+# CONSTANTS
 
-#MAJOR KEYWORD DICTIONARY -> check redundancy and delete
+# The major-keyword dictionary contains the various Majors and Bachelor level as well as the keywords associated to them.
+# This dictionary is hard coded as it is unlikely to change.
 major_keyword_dict = {
-                        "Bachelor: BA": ["consulting", "finance", "banking"],
-                        "Bachelor: Econ": ["economics", "politics", "finance"],
-                        "Bachelor: IA": ["international_affairs", "politics", "law", "economics"],
-                        "Bachelor: BLE": [],
-                        "Bachelor: Computer Science": ["technology"],
-                      }
+    "Bachelor: BA": ["business", "accounting", "consulting", "marketing"],
+    
+    "Bachelor: Econ": ["philosophy", "economics", "finance"],
+    
+    "Bachelor: IA": ["diplomacy", "international_relations", 
+                     "politics"],
+    
+    "Bachelor: BLE": ["business", "economics", "law"],
+    
+    "Bachelor: Computer Science": ["programming", "data_science", "technology"]
+}
 
 
-#the initiate_session_state-function initiates the session state by creating keys in the st.session_state dictionary
-#apart from defining the key, the type of the associated variable is also defined, i.e. list- and string-values
+
+# FUNCTIONS
+
+# The initiate_session_state-function initializes the session states by creating keys in the st.session_state dictionary.
+# The function defines key-value pairs, where the keys are distinguished by a string and the value is created as an empty string or list, 
+# depending on the variable type that will be associated with the respective session state
 def initiate_session_state():
     #USER NAME
     if 'name' not in st.session_state:
@@ -81,14 +83,7 @@ def initiate_session_state():
         st.session_state['club_instances_list'] = []
 
 
-#def initiate_session_state_new():
-#    for key, default_value in session_state_dict.items():
-#        if key not in st.session_state:
-#            st.session_state[key] = default_value
-
-#FUNCTIONS (sorted by applicable page)
-
-#The following function all take a temporary input variable and assign them to a session state to be stored more permanently
+#The following functions all take a temporary input variable and assign them to a session state to be stored more permanently
 #These functions are all called in 2_User_Profile.py
 #we distinguish "primary" and "secondary" session states in the user profile
 #primary session states are created directly based on the user's inputs through streamlit widgets
@@ -119,24 +114,15 @@ def update_email(email_input):
 
 #secondary
 def update_major_keywords():
-    major_keywords_list = []
-    if st.session_state['major'] == "Bachelor: BA":
-        major_keywords_list += major_keyword_dict["Bachelor: BA"]
-    elif st.session_state['major'] == "Bachelor: Econ":
-        major_keywords_list += major_keyword_dict["Bachelor: Econ"]
-    elif st.session_state['major'] == "Bachelor: IA":
-        major_keywords_list += major_keyword_dict["Bachelor: IA"]
-    elif st.session_state['major'] == "Bachelor: BLE":
-        major_keywords_list += major_keyword_dict["Bachelor: BLE"]
-    elif st.session_state['major'] == "Bachelor: Computer Science":
-        major_keywords_list += major_keyword_dict["Bachelor: Computer Science"]
-    st.session_state['user_keywords'] += sorted(set(major_keywords_list))
+    for major_name,major_keywords in major_keyword_dict.items():
+        if st.session_state['major'] == major_name:    
+            st.session_state['user_keywords'] += major_keywords
 
+    
 #primary
 def update_interests(interests_input):
     st.session_state['user_keywords'] += interests_input
 
-#fix this
 #secondary    
 def update_clubs_keywords():
     local_club_instances = st.session_state['club_instances_list']
@@ -159,3 +145,4 @@ def reduce_user_keywords():
 
 
 #REMOVE AFTER TESTING
+
