@@ -5,8 +5,6 @@ from datetime import datetime
 
 #IMPORT ALL INSTANCES OF CLASSES
 #import page, access as ml.test_major_BA._major_keywords
-from multipage_layout import test_major_BA
-from multipage_layout import test_major_Econ
 
 # Explicitly initialize session state
 #move to session_state_handler, import session states
