@@ -1,167 +1,58 @@
+# IMPORTS
 import streamlit as st
 import session_state_handler as sh
 import pandas as pd
 from datetime import datetime
+import Home as ml
 
-#IMPORT ALL INSTANCES OF CLASSES
-#import page, access as ml.test_major_BA._major_keywords
+# CONSTANTS
 
-# Explicitly initialize session state
-#move to session_state_handler, import session states
-for key, default_value in sh.session_state_dict.items():
-    if key not in st.session_state:
-        st.session_state[key] = default_value
+keywords_cloud_user = st.session_state['global_keyword_cloud']
 
-#hard-coded list of clubs for use in st-widget
-STUDENT_CLUBS = [
-    "AIESEC in St. Gallen", "CEMS Club St. Gallen", "Le Cercle des Francophones (CF)", 
-    "Club Latino", "European Nations' Society (ENSo)", "Hungarian Society", 
-    "Italian Club", "Model WTO", "East Slavic Club", "Scandinavian Society", 
-    "St. Gallen Model United Nations (SGMUN)", "Turkish Business Club", 
-    "Academic Surf Club", "Combat Sports Club", "Cycling Club", "HSG Sailing", 
-    "Salsa & Latin Dance Club", "HSG Tennis Team", "HSG Debating Club", 
-    "The Philosophy Club", "HSG Big Band", "Consulting Club", "Social Business Club", 
-    "Tech Club", "FinTech Club", "Marketing Club", "Crypto Society", "Toastmasters"
-]
+student_clubs_names_list = []
 
+# This is a hard-coded list of languages for use in the st-widget used to select the User's languages.
+# This is hard coded as we do not expect any variations in the events file in the future.
+languages_list = ["English", "Spanish", "Italian", "German", "Turkish", "French"]
 
-major_keyword_dict = {
-                        "Bachelor: BA": ["consulting", "finance", "banking"],
-                        "Bachelor: Econ": ["economics", "politics", "finance"],
-                        "Bachelor: IA": ["international_affairs", "politics", "law", "economics"],
-                        "Bachelor: BLE": [],
-                        "Bachelor: Computer Science": ["technology"],
-                      }
+# This is a hard-coded list of event types as included in data provided by SHSG in the respective database.
+# As this list is definitive, we have decided to hard-code it.
+event_types_list = [
+    "Introduction", "Sport", "Trip", "Panel discussion", "Party", "Recruitment", "Q&A","Drink", "Networking",
+    "Conference", "Drink/Introduction", "Workshop", "Beerpong Tournament", "Other", "Cultural", "Concert",
+    "Giveaway", "Conference/Food and Wine Tasting", "Karaoke", "Food Tasting", "Food and Drink", "BBQ",
+    "Olma Messen", "Lunch", "Kick-off", "Mini-Golf", "Info event","Food and Wine Tasting"
+    ]
 
 
-clubs_dict = {
-                "AIESEC in St. Gallen": ['networking', 'international', 'economics'],
-                "CEMS Club St. Gallen": ['international', "business", "finance"],
-                "Le Cercle des Francophones (CF)": ['social', 'french', 'party']
-                }
+# FUNCTIONS
 
-#hard-coded list of languages for use in st-widget, would require a language-attribute in the event-instance to come up with multiplication factor for kms
-LANGUAGES = [
-    "English", "Spanish", "Italian", "German", "Turkish", "French"
-]
+def get_student_clubs_list():
+    for club in ml.clubs_instances:
+        student_clubs_names_list.append(club.clubName)
+    return student_clubs_names_list
 
-'''
-#hard-coded list of interests for use in st-widget; should be equal to keywords_cloud; import as variable form hard coded list in multipage_layout
-INTERESTS = [
-    "Artistic expression",
-    "Business strategy",
-    "Communication",
-    "Creative thinking",
-    "Critical analysis",
-    "Entrepreneurship",
-    "Event planning",
-    "Innovation",
-    "Leadership",
-    "Management",
-    "Negotiation",
-    "Philosophy",
-    "Presentation",
-    "Problem-solving",
-    "Project management",
-    "Public speaking",
-    "Research",
-    "Social engagement",
-    "Strategy",
-    "Teamwork",
-    "Workshops",
-    "Arts",
-    "Business",
-    "Cultural awareness",
-    "Diplomacy",
-    "Economics",
-    "Environment",
-    "Global issues",
-    "History",
-    "Innovation",
-    "International relations",
-    "Language",
-    "Literature",
-    "Local culture",
-    "Networking",
-    "Philosophy",
-    "Policy",
-    "Politics",
-    "Science",
-    "Social justice",
-    "Sustainability",
-    "Technology",
-    "Trading"
-]
-'''
 
-INTERESTS = st.session_state['global_keyword_cloud']
-'''
-['Workshops', 'Volunteer Program',
- 'Keynote Speech', 'Club Fair', 'Case Competition', 'Guest Lecture',
- 'Sports Tournament', 'Fundraising', 'Career Fair', 'Social Gathering',
- 'Tech Talks', 'HSG', 'Community', 'Skill Development',
- 'Entrepreneurship', 'Entrepreneurship', 'Sustainability',
- 'Innovation Challenge', 'Community', 'Volunteer Program', 'Oikos', 'Panel Discussion',
- 'Keynote Speech', 'Sustainability', 'Case Competition', 'Guest Lecture', 'Fundraising', 'Social Gathering',
- 'Tech Talks', 'Alumni Meet', 'Skill Development',
- 'Entrepreneurship', 'Entrepreneurship', 'Sustainability',
- 'Innovation Challenge', 'Community']
-'''
-
-#hard-coded list of interests for use in st-widget; should be equal to keywords_cloud; import as variable form hard coded list in multipage_layout
-EVENT_TYPES = [
-    "Introduction",
-    "Sport",
-    "Trip",
-    "Panel discussion",
-    "Party",
-    "Recruitment",
-    "Q&A",
-    "Drink",
-    "Networking",
-    "Conference",
-    "Drink/Introduction",
-    "Workshop",
-    "Beerpong Tournament",
-    "Other",
-    "Cultural",
-    "Concert",
-    "Giveaway",
-    "Conference/Food and Wine Tasting",
-    "Karaoke",
-    "Food Tasting",
-    "Food and Drink",
-    "BBQ",
-    "Olma Messen",
-    "Lunch",
-    "Kick-off",
-    "Mini-Golf",
-    "Info event",
-    "Food and Wine Tasting"
-]
-
-     
-
+#GET USER PROFLE FUNCTION: function to 
 def get_user_profile():
-    st.subheader("User Profile")
-    st.write("Please answer the questions below to create your User Profile")
-
-
     #NAME
     name_input = st.text_input("What is you name?", value=st.session_state['name'])
     if name_input != '':
         sh.update_name(name_input)
     
-    
+    st.divider()
+
     #EMAIL ADDRESS
     email_input = st.text_input("What is your email address?", value=st.session_state['user_email'])
     if email_input != '':
         sh.update_email(email_input)
 
-    #LANGUAGE
-    language_input = st.multiselect("What is your preferred language(s)?", LANGUAGES)
+    st.divider()
 
-    
+    #LANGUAGE
+    language_input = st.multiselect("What is your preferred language(s)?", languages_list)
+
+    st.divider()
 
     #MAJOR
     major_input = st.selectbox("What is your major?", ("-select-", "Bachelor: BA","Bachelor: Econ", "Bachelor: IA",
@@ -169,24 +60,23 @@ def get_user_profile():
     if major_input != "-select-":
         sh.update_major(major_input)
     
+    st.divider()
 
-    #CLUBS
-    clubs_input = st.multiselect("Which clubs are you a member of or interested in?", STUDENT_CLUBS)
-    
+    #CLUBS - selection of multiple clubs
+    clubs_input = st.multiselect("Which clubs are you a member of or interested in?", student_clubs_names_list)
 
+    st.divider()
 
-    #EVENT TYPES
-    event_categories_input = st.multiselect("Select all event types you are interested in", EVENT_TYPES,)
+    #EVENT TYPES - selection of multiple event types, to be appended into user event_types list
+    event_categories_input = st.multiselect("Which types of events are you interested in? Select all that apply to you!", event_types_list,)
 
+    st.divider()
 
-    #INTERESTS = user_keywords
-    interests_input = st.multiselect("Select your interests below", INTERESTS)
+    #USER INTERESTS: selection of interests directly from keyword-cloud in the database, to be appended to user_keywords list
+    interests_input = st.multiselect("Which of these topics are you most interested in? Select as many as you like!", keywords_cloud_user)
 
-
-
-    
-    #SAVE USER BUTTON
-    #saves temporary lists to permanent session state variable
+    #SAVE USER BUTTON: saves temporary lists to permanent session state variable
+    #this avoids double enty
     if st.button("Save User Profile"):
         #PRIMARY SESSION STATE UPDATES
         #permanently save language input to session state
@@ -202,20 +92,47 @@ def get_user_profile():
         #save user_keywords based on selected major
         sh.update_major_keywords()
         #update list of user_keywords based on values in st.session_state['selected_clubs']
-        sh.update_clubs_keywords
+        sh.update_clubs_keywords()
 
+        #USER_KEYWORDS CLEAN UP
+        #apply set-method to user_keywords directly in the session state to eliminate duplicates
+        sh.reduce_user_keywords()
+
+        st.success('Your User Profile has been created! Check Event Recommendations to see your personalized suggestions!')
+
+# reset_user allows the user to completely reset his user profile overriding all session states with empty strings and lists.
 def reset_user():
     if st.button("Reset User"):
-        sh.initiate_session_state()
+        st.session_state['name'] = ''
+        st.session_state['major'] = ''
+        st.session_state['event_categories'] = []
+        st.session_state['user_keywords'] = []
+        st.session_state['language'] = []
+        st.session_state['selected_clubs'] = []
+        st.session_state['user_email'] = ''
+        st.info('User Profile has been reset: please re-enter you information')
 
 
-#EXECUTION
+
+#EXECUTION - combination of frontend and backend
+
+st.title("User Profile")
+#with st.title("User Profile"):
+    #st.markdown("<h1 style='text-align: center; color: black;'>User Profile</h1>", unsafe_allow_html=True)
+st.subheader("Please answer the questions below to create your User Profile", anchor=None, help=None, divider="green",)
+
+#execution of functions defined above
+get_student_clubs_list()
 get_user_profile()
 reset_user()
 
 #TEST ONLY - to be removed
+st.write(student_clubs_names_list)
 st.subheader("TESTING")
 st.write("TEST entries:")
 st.write(st.session_state)
+
+
+
 
 
