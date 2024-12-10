@@ -28,7 +28,7 @@ import session_state_handler as sh
 # CONTSTANTS
 # DATABASE CONNECTION using sqlite3-library
 # specification of file path using raw string; WHEN USING LOCAL COPIES, ENTER FILE PATH HERE
-db_path = r"C:\Users\leoru\OneDrive\Desktop\HSG\BA 3rd Semester\Computer Science\VS Computer Science\Group 8 Project 20.11.2024\events_database.db"
+db_path = r"events_database.db"
 connection = sqlite3.connect(db_path)
 
 # using cursors to access data in the database
