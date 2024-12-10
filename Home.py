@@ -1,30 +1,50 @@
-import streamlit as st
-import session_state_handler as sh
-import sqlite3
-from datetime import datetime
-import pandas as pd
+# Welcome to the backend of MatchMyEvent!
 
-#Welcome to the backend of MatchMyEvent!
+# Before you go on to examine this project, we would like to briefly explain the layout of this project.
 
-#Before you go on to examine this project, we would like to briefly explain the layout of this project.
-
-#As should be evident, this project makes use of a multipage layout to structure both the code and user interface,
+# As should evident, this project makes use of a multipage layout to structure both the code and user interface,
 # while also facilitating a way to split coding work between group members.
 
-#This here is the entry-page into the multipage layout of the code; we recommend that you proceed to the session_state_handler-file next,
+# This here is the entry-page into the multipage layout of the code; we recommend that you proceed to the session_state_handler-file next,
 # and then move on to the rest of the actual pages as this will help to better understand this multipage-layout
 
-#Besides being the entry page of the program, this page also serves the purpose of accessing the data from an sql-database
-#The reason for this is that this page is inevitable the first page to load;
+# Regarding the structure of the code: all pages are structured after the following principle: Imports - Constants - Classes - Functions - Execution
+
+# Besides being the entry page of the program, this page also serves the purpose of accessing the data from an sql-database
+# The reason for this is that this page is inevitable the first page to load;
 # feeding data into the system here makes sense as there is no need to perform any other action to ensure the readiness of the data
-#On the front-end, this is only functions as an welcome- and information page without any further user interaction
+# On the front-end, this is only functions as an welcome- and information page without any further user interaction
+
+
+
+
+
+from datetime import datetime
+import pandas as pd
+import sqlite3
+import streamlit as st
+import session_state_handler as sh
+
+# CONTSTANTS
+# DATABASE CONNECTION using sqlite3-library
+# specification of file path using raw string; WHEN USING LOCAL COPIES, ENTER FILE PATH HERE
+db_path = r"C:\Users\leoru\OneDrive\Desktop\HSG\BA 3rd Semester\Computer Science\VS Computer Science\Group 8 Project 20.11.2024\events_database.db"
+connection = sqlite3.connect(db_path)
+
+# using cursors to access data in the database
+cur1 = connection.cursor()
+events_data = cur1.execute('SELECT _id, EventName, EventType, ClubName, EventDescription, startDate, endDate, Location_1, Language, expanded_keywords FROM events_file')
+cur2 = connection.cursor()
+clubs_data = cur2.execute('SELECT clubName, InterestKeywords FROM club_profile_list')
+cur3 = connection.cursor()
+keywords_cloud_cursor = cur3.execute('SELECT keywords FROM keyword_cloud')
 
 #this function defined in the session_state_handler-file initates the sessions states as soon as the file is opened
 #this avoids session state key errors that might otherwise occur when other parts of the code are accessed before initializing session states
 sh.initiate_session_state()
 
-
-
+# CLASSES
+# The Event-profile class defines events as well as their relevant attributes for further use in other pages, specifically Browse Events and Event Recommendations
 class Event_profile:
     def __init__(self, _id, title, event_type, clubName, description, startDate, endDate, location_text, language, event_keywords):
         self._id = _id
@@ -62,18 +82,7 @@ class Club:
                 f"Club(ClubName={self.clubName!r}, club_keywords={self.InterestKeywords})"
             )
 
-
-
-# Classe pour les mots-clés globaux - NOT NECESSARY
-class Keywords:
-    def __init__(self, KeywordsCloud):
-        self.KeywordCloud = KeywordsCloud.split(',') #check if split method works
-
-
-    def __repr__(self):
-        return f"KeywordCloud({self.KeywordCloud})"
-
-
+#FUNCTIONS
 
 #CLEARING SESSION STATES
 #deletes all session state values through iteration to reset the session
@@ -84,18 +93,8 @@ def reset_session():
         sh.initiate_session_state()
 
 
-#DATABASE CONNECTION using sqlite3-library
-#specification of file path using raw string; WHEN USING LOCAL COPIES, ENTER FILE PATH HERE
-db_path = r"events_database.db"
-connection = sqlite3.connect(db_path)
 
-#using cursors to access data in the database
-cur1 = connection.cursor()
-events_data = cur1.execute('SELECT _id, EventName, EventType, ClubName, EventDescription, startDate, endDate, Location_1, Language, expanded_keywords FROM events_file')
-cur2 = connection.cursor()
-clubs_data = cur2.execute('SELECT clubName, InterestKeywords FROM club_profile_list')
-cur3 = connection.cursor()
-keywords_cloud_cursor = cur3.execute('SELECT keywords FROM keyword_cloud')
+# EXECUTION - backend
 
 #iterating through cursor list of clubs to create a list of club instances containing the clubs' names and associated keywords
 clubs_instances = []
@@ -145,6 +144,8 @@ st.session_state['club_instances_list'] = clubs_instances
 st.session_state['events_instances_list'] = events_instances
 st.session_state['global_keyword_cloud'] = keywords_cloud
 
+
+# EXECUTION - frontend
 
 # Ajouter le style CSS pour centrer le contenu
 st.markdown(
