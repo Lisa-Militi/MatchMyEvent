@@ -36,7 +36,7 @@ def get_student_clubs_list():
 #GET USER PROFLE FUNCTION: function to 
 def get_user_profile():
     #NAME
-    name_input = st.text_input("What is you name?", value=st.session_state['name'])
+    name_input = st.text_input("What is your name?", value=st.session_state['name'])
     if name_input != '':
         sh.update_name(name_input)
     
