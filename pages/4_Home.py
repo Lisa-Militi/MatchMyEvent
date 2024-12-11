@@ -20,7 +20,7 @@ st.markdown('<p class="centered">The webpage to guide you through HSG campus eve
 st.markdown('<h4 class="centered">Do you feel overwhelmed by the too big amount of clubs and events proposed at HSG?</h4>', unsafe_allow_html=True)
 
 # URL brute de l'image
-image_url = "MatchmyEvent Logo.png"
+image_url = "MatchMyEvent Logo.png"
 
 # Afficher l'image
 st.image(image_url, use_column_width=True)
