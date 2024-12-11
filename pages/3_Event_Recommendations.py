@@ -18,19 +18,6 @@ class test_event():
     def __repr__(self):
         return f"TestEvent(title={self.title}, final_kms={self.final_kms:.2f}%)"
     
-#sample events
-'''
-test_event1 = test_event('Club_Fair', ['social', 'Entrepreneurship', 'Sustainability', 'Innovation Challenge', 'Community'], 'lecture')
-test_event2 = test_event('Real_Estate_Night', ['Business','Social Gathering',
- 'Tech Talks', 'HSG'], 'conference')
-test_event3 = test_event('Beer_Pong', ['Pieces', 'Community','Fundraising', 'Sports Tourtitlent'], 'seminar') 
-test_event4 = test_event('Hackathon_Night', ['Innovation', 'Coding', 'Programming', 'Teamwork'], 'workshop')
-test_event5 = test_event('Charity_Run', ['Sports', 'Fundraising', 'Community', 'Health'], 'sport')
-test_event6 = test_event('Art_Exhibition', ['Art', 'Culture', 'Painting', 'Creativity'], 'conference')
-test_event7 = test_event('Startup_Pitch', ['Entrepreneurship', 'Business', 'Networking', 'Investors'], 'panel discussion')
-st.session_state['event_recommendations_list'] = [test_event1, test_event2, test_event3, test_event4, test_event5, test_event6, test_event7]
-'''
-
 user_keywords = st.session_state['user_keywords']
 test_events = st.session_state['events_instances_list']
 
