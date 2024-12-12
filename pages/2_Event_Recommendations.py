@@ -178,8 +178,21 @@ for rank, event in enumerate(sorted_events, start=1):
         
         col1, col2 = st.columns(2)
         with col1:
-            if st.button(f"Add Event to Outlook Calendar", key=f"outlook_{rank}"):
-                st.info(f"Event {event.title} added to Outlook Calendar!")
+            if st.button(f"Add to Calendar", key=f"calendar_{event.title}_{club.clubName}"):
+                    #st.write("1. Button clicked")  # Debug print
+                    if st.session_state['user_email']:
+                        st.write(f"2. Found email: {st.session_state['user_email']}")  # Debug print
+                    else:
+                        st.write("2. No email found")  # Debug print
+                    #try:
+                        #result = handle_calendar_invite(event)
+                        #st.write(f"3. Calendar invite result: {result}")  # Debug print
+                            #if result:
+                        #st.success(f"Event {event.title} added to your calendar!")
+                    #except Exception as e:
+                        #st.write(f"3. Error occurred: {str(e)}")  # Debug print
+                    
+                    #st.markdown("---")
         with col2:
             if st.button(f"👎 Dislike {event.title}", key=f"dislike_{rank}"):
                 if event in st.session_state['events_instances_list']:
