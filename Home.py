@@ -177,7 +177,7 @@ st.markdown('<p class="centered">We\'ve created an algorithm that will perfectly
 
 if st.button("see developers' commentary"):
     st.text("""This commentary is meant to complement the video to further\n
-explain the code and the processes that gone into realizing this project.\n\n 
+explain the code and the processes that have gone into realizing this project.\n\n 
 “BUSINESS CASE” AND PURPOSE\n\n 
 As many students will attest, the number of events taking place on the HSG can \n
 be overwhelming to a point where it is difficult to be aware of all the \n
