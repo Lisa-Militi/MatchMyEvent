@@ -8,7 +8,7 @@
 # -> create a sub-folder
 # -> move 1_User_Profile.py, 2_Event_Recommendations.py and 3_Browse_Events.py to the sub-folder
 # -> use Home.py as the entry file by running it with "streamlit run Home.py"
-# be sure to correctly specify the file paths for the images and the database in the code. In this file, the paths are defined in lines 40, 181 and 226
+# be sure to correctly specify the file paths for the images and the database in the code. In this file, the paths are defined in lines 38, 179 and 224
 # You may also try to run the code directly from github with the following link: https://matchmyevent-gzo76jtdfoornwwdfu5hjg.streamlit.app/
 
 # As should be evident, this project makes use of a multipage layout to structure both the code and user interface,
@@ -16,8 +16,6 @@
 
 # This here is the entry-page into the multipage layout of the code; we recommend that you proceed to the session_state_handler-file next,
 # and then move on to the rest of the actual pages as this will help to better understand this multipage-layout
-
-# Regarding the structure of the code: all pages are structured in the following order: Imports - Constants - Classes - Functions - Execution
 
 # Besides being the entry page of the program, this page also serves the purpose of accessing the data from an sql-database
 # The reason for this is that this page is inevitable the first page to load;
