@@ -264,7 +264,15 @@ presented to the user in the form of the top recommendations.\n\n
 Browse Events\n 
 The 3_Browse_Events.py-file draws on both session states as well as the \n
 events_instances_list created in the Home.py file to allow the user to view \n
-all of the events taking place, filtered by the club that is organizing it.\n\n 
+all of the events taking place, filtered by the club that is organizing it.\n\n
+Calendar Handler\n
+The calendar_handler.py file is another invisible file that cotains the function\n
+that allows the sending of outlook invitations through the exchangelib library.\n
+The details of this function are elaborated on later. The reason this file is separate\n
+is that github does not support the exchangelib library; keeping the code with this\n
+library prevents errors associated with the library. Both the Event Recommendation and\n
+Browse Events pages call the function contained in this file; some of the code in\n
+those files is commented-out to avoid errors.\n\n
 DATA\n 
 The starting point of this project is the data made available to us by the \n
 SHSG through a csv-file. The bigger challenge with the data was the limited \n
