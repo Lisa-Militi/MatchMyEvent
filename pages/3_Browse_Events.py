@@ -97,7 +97,7 @@ def browse_events():
                 #except Exception as e:
                     #st.write(f"3. Error occurred: {str(e)}")  # Debug print
                     
-            st.markdown("---")
+            #st.markdown("---")
 
         # Add a green line separator after each club
         st.markdown("<hr style='border: 2px solid green;'>", unsafe_allow_html=True)
