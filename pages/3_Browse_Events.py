@@ -4,7 +4,7 @@ import session_state_handler as sh
 from datetime import datetime
 import pandas as pd
 import Home as ml
-from calendar_handler import handle_calendar_invite  #Current implementation attempts to use Microsoft Exchange Web Services (EWS)
+#from calendar_handler import handle_calendar_invite  #Current implementation attempts to use Microsoft Exchange Web Services (EWS)
 #from multipage_layout import ml.events_instances
 #from multipage_layout import Club
 #from multipage_layout import Keywords
@@ -74,6 +74,7 @@ def browse_events():
                 st.write(f"**Location**: {event.location_text}")
                 st.write(f"**Language**: {event.language}")
                 st.write(f"**Description**: {event.description}")
+
 # CALENDAR BUTTON IMPLEMENTATION
     # Adds "Add to Calendar" button to each event
     # When clicked:
@@ -88,13 +89,13 @@ def browse_events():
                     st.write(f"2. Found email: {st.session_state['user_email']}")  # Debug print
                 else:
                     st.write("2. No email found")  # Debug print
-                try:
-                    result = handle_calendar_invite(event)
-                    st.write(f"3. Calendar invite result: {result}")  # Debug print
-                    if result:
-                        st.success(f"Event {event.title} added to your calendar!")
-                except Exception as e:
-                    st.write(f"3. Error occurred: {str(e)}")  # Debug print
+                #try:
+                    #result = handle_calendar_invite(event)
+                    #st.write(f"3. Calendar invite result: {result}")  # Debug print
+                    #if result:
+                        #st.success(f"Event {event.title} added to your calendar!")
+                #except Exception as e:
+                    #st.write(f"3. Error occurred: {str(e)}")  # Debug print
                     
             st.markdown("---")
 
