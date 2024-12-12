@@ -69,9 +69,9 @@ def render_progress_circle(percentage):
     return f""" 
     <svg width="100" height="100" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
         <circle cx="18" cy="18" r="16" fill="none" stroke="#eee" stroke-width="4" />
-        <circle cx="18" cy="18" r="16" fill="none" stroke="#007bff" stroke-width="4"
+        <circle cx="18" cy="18" r="16" fill="none" stroke="#008000" stroke-width="4"
             stroke-dasharray="{percentage}, 100" stroke-linecap="round" transform="rotate(-90 18 18)" />
-        <text x="18" y="20.5" font-size="8" fill="#007bff" text-anchor="middle" font-weight="bold">{percentage:.0f}%</text>
+        <text x="18" y="20.5" font-size="8" fill="#008000" text-anchor="middle" font-weight="bold">{percentage:.0f}%</text>
     </svg>
     """
 
@@ -93,7 +93,7 @@ def format_time(date_str):
 description = event.description
 
 # Helper to format description --> does not work yet
-def format_description(description):
+def preprocess_description(description):
     if not description:
         return "No description available."
     # Split the description into paragraphs
@@ -114,6 +114,33 @@ def format_description(description):
     # Join paragraphs with double newline (HTML line break)
     return '<br><br>'.join(cleaned_paragraphs)
 
+st.markdown(
+    """
+    <style>
+    .event-container {
+        position: relative; /* Ensures child elements with 'absolute' positioning are aligned to this container */
+        border: 2px solid #ddd;
+        border-radius: 10px;
+        padding: 15px; /* Padding to ensure space inside the container */
+        margin-bottom: 20px;
+        background-color: #ffffff;
+        overflow: hidden; /* Prevents content from spilling out of the box */
+    }
+    .progress-circle {
+        position: absolute; /* Positions the circle relative to the parent */
+        top: 15px; /* Adjust vertical position */
+        right: 15px; /* Adjust horizontal position */
+        width: 100px; /* Increased size of the circle */
+        height: 100px; /* Match width for a perfect circle */
+    }
+    .event-details {
+        margin-right: 120px; /* Ensures no text overlaps the progress circle */
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 # Streamlit presentation
 st.title("Top 5 Matched Events")
 
@@ -121,36 +148,35 @@ for rank, event in enumerate(sorted_events, start=1):
     formatted_date = format_date_time(event.startDate)
     formatted_start_time = format_time(event.startDate)
     formatted_end_time = format_time(event.endDate) if hasattr(event, 'endDate') and event.endDate else "Unknown"
-    formatted_description = format_description(event.description)
+
+    cleaned_description = preprocess_description(event.description)
 
     with st.container():
         st.markdown(
             f"""
-            <div style="border: 2px solid #ddd; border-radius: 10px; padding: 15px; margin-bottom: 15px; background-color: #ffffff; display: flex; align-items: center; justify-content: space-between;">
-                <div style="flex: 1;">
+            <div class="event-container">
+                <div class="event-details">
                     <p style="font-weight: bold; color: #333; font-size: 14px;">Rank {rank}</p>
                     <h3 style="margin-bottom: 10px;">{event.title}</h3>
                     <p style="font-size: 14px; color: #333; margin: 0;">
                         <strong>Club:</strong> {event.clubName}
                     </p>
-                    <div style="margin-bottom: 10px;"></div>
                     <p style="font-size: 14px; color: #555; margin: 0;">
                         <strong>{formatted_date}</strong>
                     </p>
                     <p style="font-size: 14px; color: #555; margin: 0;">
                         Time: {formatted_start_time} - {formatted_end_time}
                     </p>
-                    <div style="margin-bottom: 15px;"></div>
                     <p style="font-size: 12px; color: #555; margin: 0;">
-                        <strong>Description:</strong> {formatted_description}
+                        <strong>Description:</strong> {cleaned_description}
                     </p>
                 </div>
-                <div style="flex: 0;">
+                <div class="progress-circle">
                     {render_progress_circle(event.final_kms)}
             """,
             unsafe_allow_html=True,
         )
-
+        
         col1, col2 = st.columns(2)
         with col1:
             if st.button(f"Add Event to Outlook Calendar", key=f"outlook_{rank}"):
