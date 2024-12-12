@@ -128,7 +128,7 @@ reset_user()
 #st.write(student_clubs_names_list)
 #st.subheader("TESTING")
 #st.write("TEST entries:")
-#st.write(st.session_state)
+st.write(st.session_state)
 
 
 
