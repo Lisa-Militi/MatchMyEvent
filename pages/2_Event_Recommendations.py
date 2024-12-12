@@ -1,47 +1,47 @@
 import streamlit as st
-from datetime import datetime
-import re
+from datetime import datetime #is for date and time handling with the Event duration
+import re #for text preprocessing
 #from exchangelib import Credentials, Account, CalendarItem, DELEGATE, EWSDateTime, EWSTimeZone
 #from calendar_handler import handle_calendar_invite  #Current implementation attempts to use Microsoft Exchange Web Services (EWS)
 
+# the user and event keywords get retrieved
 user_keywords = st.session_state['user_keywords']
 test_events = st.session_state['events_instances_list']
 
-
-
-def preprocess_text(text): #normalize Text
+def preprocess_text(text): #removes special caracters and extra spaces from input text
     text = re.sub(r"[^a-zA-Z0-9\s]", " ", text)
-    text = re.sub(r"\s+", " ", text)  # removes tabs
-    return text.lower().strip()
+    text = re.sub(r"\s+", " ", text)
+    return text.lower().strip() # returns the cleaned and normalized text
 
-
+# KMS = Keyword Matching Score
+# Calculation of how well an event matches the usere's preferences
 def calculate_kms(user_keywords, event_keywords):
     # Looks for matches between user keywords and event keywords
     matches = list(filter(lambda keyword: keyword.lower() in [kw.lower() for kw in event_keywords], user_keywords))
+    # counts total matches and total keywords:
     match_count = len(matches)
     number_of_event_keywords = len(event_keywords)
+    # calculates the KMS score
     base_score = (match_count / number_of_event_keywords * 100) if number_of_event_keywords > 0 else 0
-    
-    #total_event_keywords = len(event_keywords)
     final_score = min(base_score, 100)  # Cap the score at 100%
-    
     return final_score, matches
 
 
-# Definition of the KMS bonus for event type match and language
+# Applies a bonus of 4% to the KMS if the event type matches the user's preference
 def apply_event_type_bonus(kms, event_type_match):
     if event_type_match:
         bonus = 4 if kms <= 96 else (100 - kms)
         return min(kms + bonus, 100)
     return kms
 
+# Applies a bonus of 6% to the KMS if the language matches the user's preference
 def apply_language_bonus(kms, language_match):
     if language_match:
         bonus = 6 if kms <= 94 else (100 - kms)
         return min(kms + bonus, 100)
     return kms
 
-# Match checks
+# checks if the event category or language matches the users preferences
 def check_event_type_match(event_category, preferred_event_types):
     return event_category.lower() in [etype.lower() for etype in preferred_event_types]
 
@@ -52,18 +52,21 @@ def check_language_match(language, preferred_language):
 preferred_event_types = st.session_state['event_categories']
 preferred_language = st.session_state['language']
 
-# Calculate and sort events
+# Loops trough each event
 for event in test_events:
+    # calculates the events KMS and checks for type and language matches
     event_kms, matches = calculate_kms(user_keywords, event.event_keywords)
     event_type_match = check_event_type_match(event.event_type, preferred_event_types)
     language_match = check_language_match(event.language, preferred_language)
+    # applies bonuses to the events KMS
     event.final_kms = apply_event_type_bonus(event_kms, event_type_match)
     event.final_kms = apply_language_bonus(event.final_kms, language_match)
-
+# sorts the events by KMS and selects top 5
 sorted_events = sorted(test_events, key=lambda e: e.final_kms, reverse=True)[:5]
 
-# HTML template for progress circle
+# renders a circular progress indicator for the KMS score
 def render_progress_circle(percentage):
+    # HTML Code was made with ChatGPT
     return f""" 
     <svg width="100" height="100" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
         <circle cx="18" cy="18" r="16" fill="none" stroke="#eee" stroke-width="4" />
@@ -73,7 +76,7 @@ def render_progress_circle(percentage):
     </svg>
     """
 
-# Helper to format the date and time
+# converts the date string to an easy readable format
 def format_date_time(date_str):
     try:
         dt = datetime.fromisoformat(date_str.replace("Z", ""))
@@ -81,6 +84,7 @@ def format_date_time(date_str):
     except ValueError:
         return "Invalid Date"
 
+# extracts time from date string
 def format_time(date_str):
     try:
         dt = datetime.fromisoformat(date_str.replace("Z", ""))
@@ -90,19 +94,19 @@ def format_time(date_str):
 
 description = event.description
 
-# Helper to format description --> does not work yet
+# splits and cleans the description text into HTML friendly paragraphs --> does not work (/n)
 def preprocess_description(description):
     if not description:
         return "No description available."
     # Split the description into paragraphs
     paragraphs = description.split('\n\n')
     
-    # Clean each paragraph
+    # clean each paragraph
     cleaned_paragraphs = []
     for para in paragraphs:
-        # Remove extra whitespace at start and end of paragraph
+        # remove extra whitespace at start and end of paragraph
         cleaned_para = para.strip()
-        # Replace multiple spaces with single space within the paragraph
+        # replace multiple spaces with single space within the paragraph
         cleaned_para = re.sub(r'\s+', ' ', cleaned_para)
         
         # Only add non-empty paragraphs
@@ -112,7 +116,7 @@ def preprocess_description(description):
     # Join paragraphs with double newline (HTML line break)
     return '<br><br>'.join(cleaned_paragraphs)
 
-
+# made with ChatGPT:
 st.markdown(
     """
     <style>
@@ -142,15 +146,15 @@ st.markdown(
 
 # Streamlit presentation
 st.title("Top 5 Matched Events")
-
+# iterates over the top 5 events
 for rank, event in enumerate(sorted_events, start=1):
     formatted_date = format_date_time(event.startDate)
     formatted_start_time = format_time(event.startDate)
     formatted_end_time = format_time(event.endDate) if hasattr(event, 'endDate') and event.endDate else "Unknown"
 
     cleaned_description = preprocess_description(event.description)
-
-    with st.container():
+    # displays event details including the progress circle in a box
+    with st.container():# made with ChatGPT
         st.markdown(
             f"""
             <div class="event-container">
@@ -175,7 +179,8 @@ for rank, event in enumerate(sorted_events, start=1):
             """,
             unsafe_allow_html=True,
         )
-        
+
+        # adds buttons for each event to add it to the outlook calendar or remove it from the list
         col1, col2 = st.columns(2)
         with col1:
             if st.button(f"Add to Calendar", key=f"calendar_{event.title}"):
@@ -193,6 +198,7 @@ for rank, event in enumerate(sorted_events, start=1):
                         #st.write(f"3. Error occurred: {str(e)}")  # Debug print
                     
                     #st.markdown("---")
+        #removes the event from the list if the user dislikes it
         with col2:
             if st.button(f"👎 Dislike {event.title}", key=f"dislike_{rank}"):
                 if event in st.session_state['events_instances_list']:
