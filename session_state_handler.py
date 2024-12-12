@@ -1,11 +1,15 @@
-import streamlit as st
-
 # This is the session_state_handler file.  It is invisible to the user as it only serves as a coordinator for data being passed through the system.
 # It contains all the session state infrastructure, consisting of the definition and initialization of the session states,
 # as well as any functions that serve the purpose of updating or clearing session states.
 # This page helps to coordinate information that needs to be saved during a session by using session states.
 # It allows information to be stored centrally and to be called wherever needed through the use of st.session_state.
 # This page further only contains one constant as well as all of the functions that are necessary that the session state infrastructure works.
+
+
+
+# IMPORTS
+
+import streamlit as st
 
 
 
@@ -82,6 +86,14 @@ def initiate_session_state():
     if 'club_instances_list' not in st.session_state:
         st.session_state['club_instances_list'] = []
 
+    #OUTLOOK CALENDAR CONNECTION
+    if 'calendar_manager' not in st.session_state:
+        st.session_state['calendar_manager'] = None
+    
+    #OUTLOOK CREDENTIALS
+    if 'outlook_credentials' not in st.session_state:
+        st.session_state['outlook_credentials'] = None
+
 
 #The following functions all take a temporary input variable and assign them to a session state to be stored more permanently
 #These functions are all called in 2_User_Profile.py
@@ -145,4 +157,3 @@ def reduce_user_keywords():
 
 
 #REMOVE AFTER TESTING
-
