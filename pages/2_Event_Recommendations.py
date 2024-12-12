@@ -1,6 +1,5 @@
 import streamlit as st
 from datetime import datetime
-#from exchangelib import Credentials, Account, CalendarItem, DELEGATE, EWSDateTime, EWSTimeZone
 import re
 
 
@@ -8,38 +7,36 @@ user_keywords = st.session_state['user_keywords']
 test_events = st.session_state['events_instances_list']
 
 
+
 def preprocess_text(text): #normalize Text
     text = re.sub(r"[^a-zA-Z0-9\s]", " ", text)
     text = re.sub(r"\s+", " ", text)  # removes tabs
     return text.lower().strip()
 
-def calculate_kms(user_keywords, title, clubName, description): #kms mit skalierender formel
-    title_keywords = preprocess_text(title).split()
-    club_keywords = preprocess_text(clubName).split()
-    description_keywords = preprocess_text(description).split()
-    # Event-Keywords kombinieren
-    event_keywords = title_keywords + club_keywords + description_keywords
-    # Matches zwischen User-Keywords und Event-Keywords finden
-    matches = [kw for kw in event_keywords if any(user_kw in kw for user_kw in user_keywords)]
-    # Match-Rate berechnen (aggressiv skaliert)
+
+def calculate_kms(user_keywords, event_keywords):
+    # Looks for matches between user keywords and event keywords
+    matches = list(filter(lambda keyword: keyword.lower() in [kw.lower() for kw in event_keywords], user_keywords))
     match_count = len(matches)
-    total_event_keywords = len(event_keywords)
-    # Neue Formel: Bonus für jeden Match und Gesamtgewichtung
-    base_score = (match_count / max(total_event_keywords, 1)) * 100  # Basis-Score
-    scaled_score = base_score + (match_count * 10)  # Zusätzliche Skalierung pro Match
-    final_score = min(scaled_score, 100)  # Maximal auf 100 begrenzen
+    number_of_event_keywords = len(event_keywords)
+    base_score = (match_count / number_of_event_keywords * 100) if number_of_event_keywords > 0 else 0
+    
+    #total_event_keywords = len(event_keywords)
+    final_score = min(base_score, 100)  # Cap the score at 100%
+    
     return final_score, matches
+
 
 # Definition of the KMS bonus for event type match and language
 def apply_event_type_bonus(kms, event_type_match):
     if event_type_match:
-        bonus = 10 if kms <= 90 else (100 - kms)
+        bonus = 4 if kms <= 96 else (100 - kms)
         return min(kms + bonus, 100)
     return kms
 
 def apply_language_bonus(kms, language_match):
     if language_match:
-        bonus = 15 if kms <= 85 else (100 - kms)
+        bonus = 6 if kms <= 94 else (100 - kms)
         return min(kms + bonus, 100)
     return kms
 
@@ -56,7 +53,7 @@ preferred_language = st.session_state['language']
 
 # Calculate and sort events
 for event in test_events:
-    event_kms, matches = calculate_kms(user_keywords, event.title, event.clubName, event.description)
+    event_kms, matches = calculate_kms(user_keywords, event.event_keywords)
     event_type_match = check_event_type_match(event.event_type, preferred_event_types)
     language_match = check_language_match(event.language, preferred_language)
     event.final_kms = apply_event_type_bonus(event_kms, event_type_match)
@@ -113,6 +110,7 @@ def preprocess_description(description):
     
     # Join paragraphs with double newline (HTML line break)
     return '<br><br>'.join(cleaned_paragraphs)
+
 
 st.markdown(
     """
