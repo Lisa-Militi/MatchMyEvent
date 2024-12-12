@@ -108,7 +108,7 @@ for club in clubs_data:
 events_instances = []
 fixed_date = datetime(2024, 10, 1, 0, 0, 0) #for demonstration purpses; fixed date to be removed if actual future events are to be displayed
 for line in events_data:
-    event_start_date = datetime.strptime(line[5], "%Y-%m-%dT%H:%M:%S.%fZ")
+    event_start_date = datetime.strptime(line[5], "%Y-%m-%dT%H:%M:%S.%fZ") # done with ChatGPT; prompt: give me a code snippet to convert the following date format to work with the datetime library: 2024-01-30T19:00:00.000Z
     if event_start_date > fixed_date: #can be replaced with datetime.now(): to view actual future events
         event_instance = Event_profile(
             _id = line[0],
