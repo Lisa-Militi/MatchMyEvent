@@ -1,3 +1,6 @@
+# This page calculates the Keyword Matching Score (KMS) for events based on user-provided keywords and event attributes.
+# It then sorts the events by their KMS score and displays the top matches in an interactive way.
+
 import streamlit as st
 from datetime import datetime #is for date and time handling with the Event duration
 import re #for text preprocessing
@@ -13,7 +16,6 @@ def preprocess_text(text): #removes special caracters and extra spaces from inpu
     text = re.sub(r"\s+", " ", text)
     return text.lower().strip() # returns the cleaned and normalized text
 
-# KMS = Keyword Matching Score
 # Calculation of how well an event matches the usere's preferences
 def calculate_kms(user_keywords, event_keywords):
     # Looks for matches between user keywords and event keywords
