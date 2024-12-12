@@ -179,9 +179,9 @@ if st.button("see developers' commentary"):
     st.text("""This commentary is meant to complement the video to further\n
 explain the code and the processes that have gone into realizing this project.\n\n 
 “BUSINESS CASE” AND PURPOSE\n\n 
-As many students will attest, the number of events taking place on the HSG can \n
+As many students will attest, the number of events taking place at HSG can \n
 be overwhelming to a point where it is difficult to be aware of all the \n
-interesting events taking place on and around campus. MatchMyEvent solves \n
+interesting events taking place on and off campus. MatchMyEvent solves \n
 this problem by providing personalized event recommendations and allowing \n
 students to browse events by clubs.\n\n
 BASIC FUNCTIONALITY\n 
@@ -266,7 +266,7 @@ The 3_Browse_Events.py-file draws on both session states as well as the \n
 events_instances_list created in the Home.py file to allow the user to view \n
 all of the events taking place, filtered by the club that is organizing it.\n\n
 Calendar Handler\n
-The calendar_handler.py file is another invisible file that cotains the function\n
+The calendar_handler.py file is another invisible file that contains the function\n
 that allows the sending of outlook invitations through the exchangelib library.\n
 The details of this function are elaborated on later. The reason this file is separate\n
 is that github does not support the exchangelib library; keeping the code with this\n
@@ -328,7 +328,7 @@ throughout the semester, helps to give a better demonstration of the user \n
 experience. It is very easy to configure the code to take the current date as \n
 a starting point; the code for this is already prepared in the Home.py file \n
 and can be copy-pasted into the respective line.\n\n 
-OUTLOOK API / EXCHANGLIB LIBRARY\n 
+OUTLOOK API / EXCHANGELIB LIBRARY\n 
 The calendar integration infrastructure is fully implemented using \n
 Microsoft's Exchange Web Services (EWS), but several external factors can \n
 prevent successful calendar invitations. Institutional network restrictions, \n
@@ -368,5 +368,5 @@ the code.\n
 Finally, not all clubs announce all of their events through the SHSG \n
 infrastructure, leading to some blind spots for the MatchMyEvent user. \n
 Nonetheless, the app allows students to get recommendations for a large number \n
-of events, as the event database beginning in January and ending in May \n
+of events, as the event database beginning in January and ending in December \n
 contains more than 200 events.""")
