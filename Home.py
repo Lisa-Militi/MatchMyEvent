@@ -1,21 +1,26 @@
 # Welcome to the backend of MatchMyEvent!
 
-# Before you go on to examine this project, we would like to briefly explain the layout of this project.
+# Before you go on to examine this project, we would like to give instructions on how to run this code and briefly explain the layout of this project.
 
-# As should evident, this project makes use of a multipage layout to structure both the code and user interface,
+# To run this code you will have to do the following:
+# -> create a folder to contain all the files
+# -> move Home.py, session_state_handler.py, event_database.db, keyword_expander.py and calender_handler.py to the folder
+# -> create a sub-folder
+# -> move 1_User_Profile.py, 2_Event_Recommendations.py and 3_Browse_Events.py to the sub-folder
+# -> use Home.py as the entry file by running it with "streamlit run Home.py"
+
+# As should be evident, this project makes use of a multipage layout to structure both the code and user interface,
 # while also facilitating a way to split coding work between group members.
 
 # This here is the entry-page into the multipage layout of the code; we recommend that you proceed to the session_state_handler-file next,
 # and then move on to the rest of the actual pages as this will help to better understand this multipage-layout
 
-# Regarding the structure of the code: all pages are structured after the following principle: Imports - Constants - Classes - Functions - Execution
+# Regarding the structure of the code: all pages are structured in the following order: Imports - Constants - Classes - Functions - Execution
 
 # Besides being the entry page of the program, this page also serves the purpose of accessing the data from an sql-database
 # The reason for this is that this page is inevitable the first page to load;
 # feeding data into the system here makes sense as there is no need to perform any other action to ensure the readiness of the data
 # On the front-end, this is only functions as an welcome- and information page without any further user interaction
-
-
 
 
 
@@ -25,11 +30,14 @@ import sqlite3
 import streamlit as st
 import session_state_handler as sh
 
-# CONTSTANTS
+
+
+# CONSTANTS
 # DATABASE CONNECTION using sqlite3-library
 # specification of file path using raw string; WHEN USING LOCAL COPIES, ENTER FILE PATH HERE
 db_path = r"events_database.db"
 connection = sqlite3.connect(db_path)
+
 
 # using cursors to access data in the database
 cur1 = connection.cursor()
@@ -39,9 +47,12 @@ clubs_data = cur2.execute('SELECT clubName, InterestKeywords FROM club_profile_l
 cur3 = connection.cursor()
 keywords_cloud_cursor = cur3.execute('SELECT keywords FROM keyword_cloud')
 
+
 #this function defined in the session_state_handler-file initates the sessions states as soon as the file is opened
 #this avoids session state key errors that might otherwise occur when other parts of the code are accessed before initializing session states
 sh.initiate_session_state()
+
+
 
 # CLASSES
 # The Event-profile class defines events as well as their relevant attributes for further use in other pages, specifically Browse Events and Event Recommendations
