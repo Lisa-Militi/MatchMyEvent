@@ -2,7 +2,7 @@ import streamlit as st
 from datetime import datetime
 import re
 #from exchangelib import Credentials, Account, CalendarItem, DELEGATE, EWSDateTime, EWSTimeZone
-from calendar_handler import handle_calendar_invite  #Current implementation attempts to use Microsoft Exchange Web Services (EWS)
+#from calendar_handler import handle_calendar_invite  #Current implementation attempts to use Microsoft Exchange Web Services (EWS)
 
 user_keywords = st.session_state['user_keywords']
 test_events = st.session_state['events_instances_list']
