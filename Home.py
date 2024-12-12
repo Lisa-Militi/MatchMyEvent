@@ -4,10 +4,11 @@
 
 # To run this code you will have to do the following:
 # -> create a folder to contain all the files
-# -> move Home.py, session_state_handler.py, event_database.db, keyword_expander.py and calender_handler.py to the folder
+# -> move Home.py, session_state_handler.py, event_database.db, keyword_expander.py, calender_handler.py, MatchMyEvent Logo.png and code_files_architecture_image.JPG to the folder
 # -> create a sub-folder
 # -> move 1_User_Profile.py, 2_Event_Recommendations.py and 3_Browse_Events.py to the sub-folder
 # -> use Home.py as the entry file by running it with "streamlit run Home.py"
+# be sure to correctly specify the file paths for the images and the database in the code. In this file, the paths are defined in lines 39, 180 and 225
 
 # As should be evident, this project makes use of a multipage layout to structure both the code and user interface,
 # while also facilitating a way to split coding work between group members.
