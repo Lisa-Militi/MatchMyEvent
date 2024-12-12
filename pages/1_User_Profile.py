@@ -12,7 +12,7 @@ keywords_cloud_user = st.session_state['global_keyword_cloud']
 student_clubs_names_list = []
 
 # This is a hard-coded list of languages for use in the st-widget used to select the User's languages.
-# This is hard coded as we do not expect any variations in the events file in the future.
+# This list is hard coded as we do not expect any variations in the events file in the future.
 languages_list = ["English", "Spanish", "Italian", "German", "Turkish", "French"]
 
 # This is a hard-coded list of event types as included in data provided by SHSG in the respective database.
@@ -36,7 +36,7 @@ def get_student_clubs_list():
 #GET USER PROFLE FUNCTION: function to 
 def get_user_profile():
     #NAME
-    name_input = st.text_input("What is your name?", value=st.session_state['name'])
+    name_input = st.text_input("What is you name?", value=st.session_state['name'])
     if name_input != '':
         sh.update_name(name_input)
     
@@ -117,8 +117,6 @@ def reset_user():
 #EXECUTION - combination of frontend and backend
 
 st.title("User Profile")
-#with st.title("User Profile"):
-    #st.markdown("<h1 style='text-align: center; color: black;'>User Profile</h1>", unsafe_allow_html=True)
 st.subheader("Please answer the questions below to create your User Profile", anchor=None, help=None, divider="green",)
 
 #execution of functions defined above
@@ -127,10 +125,10 @@ get_user_profile()
 reset_user()
 
 #TEST ONLY - to be removed
-st.write(student_clubs_names_list)
-st.subheader("TESTING")
-st.write("TEST entries:")
-st.write(st.session_state)
+#st.write(student_clubs_names_list)
+#st.subheader("TESTING")
+#st.write("TEST entries:")
+#st.write(st.session_state)
 
 
 
