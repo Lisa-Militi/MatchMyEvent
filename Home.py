@@ -309,7 +309,7 @@ the SHSG since the end of January 2024, only events after the first of October \
 were expanded in line with an artificial starting date explained below. \n
 Expanding all of the events would have been more costly and would not have \n
 served a purpose.\n\n 
-ARTIFICIAL STARTING DATE FOR DEMONSTRATION PURPOSES\n\n 
+ARTIFICIAL STARTING DATE FOR DEMONSTRATION PURPOSES\n 
 As events and the corresponding csv-files are only updated in certain \n
 intervals by the SHSG, our current database (as of 12.12.2024) only contains \n
 events until mid-December. To have a larger number of events ready for the \n
@@ -320,7 +320,7 @@ throughout the semester, helps to give a better demonstration of the user \n
 experience. It is very easy to configure the code to take the current date as \n
 a starting point; the code for this is already prepared in the Home.py file \n
 and can be copy-pasted into the respective line.\n\n 
-OUTLOOK API / EXCHANGLIB LIBRARY\n\n 
+OUTLOOK API / EXCHANGLIB LIBRARY\n 
 The calendar integration infrastructure is fully implemented using \n
 Microsoft's Exchange Web Services (EWS), but several external factors can \n
 prevent successful calendar invitations. Institutional network restrictions, \n
@@ -340,7 +340,7 @@ compatibility with GitHub's version control system, as different operating \n
 systems and environments might interpret special characters in code comments \n
 differently, potentially causing execution errors during repository \n
 synchronization.\n\n 
-LIMITATIONS\n\n 
+LIMITATIONS\n 
 While the code works quite well, there are a few limitations.\n 
 As mentioned earlier, the amount of data available from the SHSG is quite \n
 limited and varies heavily with regard to the description, making certain the \n
