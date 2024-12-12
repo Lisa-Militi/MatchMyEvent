@@ -1,3 +1,6 @@
+#This page allows the functioning of the Events Browser as a drop-down button
+#Dispalying Events per Club from October 2024 Onwards
+
 import streamlit as st
 import sqlite3
 import session_state_handler as sh
@@ -8,6 +11,7 @@ import Home as ml
 #from multipage_layout import ml.events_instances
 #from multipage_layout import Club
 #from multipage_layout import Keywords
+#Recenter the Title
 st.markdown(
     """
     <style>
@@ -20,6 +24,7 @@ st.markdown(
 )
 st.markdown("<h1 class=""centered"">Browse Events </h1>", unsafe_allow_html=True)
 
+#Setting up the dates in a datetime format
 def format_date(date_str):
     """Convert a date string to format dd-mm-yyyy."""
     try:
@@ -27,6 +32,7 @@ def format_date(date_str):
     except (ValueError, TypeError):
         return date_str
 
+#Defining the function Browse Events to configure an events browser 
 def browse_events():
     st.subheader("Events per Club 2024")
 
