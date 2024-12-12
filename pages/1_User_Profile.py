@@ -36,7 +36,7 @@ def get_student_clubs_list():
 #GET USER PROFLE FUNCTION: function to 
 def get_user_profile():
     #NAME
-    name_input = st.text_input("What is your name?", value=st.session_state['name'])
+    name_input = st.text_input("What is you name?", value=st.session_state['name'])
     if name_input != '':
         sh.update_name(name_input)
     
@@ -124,12 +124,10 @@ get_student_clubs_list()
 get_user_profile()
 reset_user()
 
-#TEST ONLY - to be removed
-#st.write(student_clubs_names_list)
+#TEST ONLY: un-comment to see contents of session states
 #st.subheader("TESTING")
-#st.write("TEST entries:")
-st.write(st.session_state)
-
+#st.write("Session State dictionary content:")
+#st.write(st.session_state)
 
 
 
