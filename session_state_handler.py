@@ -149,11 +149,3 @@ def reduce_user_keywords():
     temp_user_keywords_list = set(st.session_state['user_keywords'])
     st.session_state['user_keywords'] = temp_user_keywords_list
 
-#Browse_Events
-#POTENTIAL FUNCTIONS TO BE ADDED
-#def update_event_keywords(): #combines keywords from temporary keyword list (from keyword expander) with existing session state
-#def update_events_instances_list(): save list to session state
-
-
-
-#REMOVE AFTER TESTING
