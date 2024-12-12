@@ -176,19 +176,10 @@ for rank, event in enumerate(sorted_events, start=1):
             unsafe_allow_html=True,
         )
         
-# CALENDAR BUTTON IMPLEMENTATION
-    # Adds "Add to Calendar" button to each event
-    # When clicked:
-    # 1. Verifies user email exists
-    # 2. Initiates Outlook connection if not exists
-    # 3. Creates calendar event with event details
-    # 4. Sends invitation to user's email
-
         col1, col2 = st.columns(2)
         with col1:
             if st.button(f"Add Event to Outlook Calendar", key=f"outlook_{rank}"):
-                if handle_calendar_invite(event):
-                    st.success(f"Event {event.title} added to your calendar!")
+                st.info(f"Event {event.title} added to Outlook Calendar!")
         with col2:
             if st.button(f"👎 Dislike {event.title}", key=f"dislike_{rank}"):
                 if event in st.session_state['events_instances_list']:
