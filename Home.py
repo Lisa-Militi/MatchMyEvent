@@ -59,7 +59,7 @@ class Event_profile:
         self.event_keywords = event_keywords
         self.event_keywords = []
 
-    def __repr__(self):
+    def __repr__(self): # coded with ChatGPT to save time; prompt: give me a __repr__-function for the following Class: (Event_profile)
         return (
             f"Event_profile(EventID={self._id!r}, title={self.title!r}, "
             f"event_type={self.event_type!r}, clubName={self.clubName!r}, "
@@ -77,7 +77,7 @@ class Club:
         InterestKeywords = []
 
 
-    def __repr__(self):
+    def __repr__(self): # coded with ChatGPT to save time; prompt: give me a __repr__-function for the following Class: (Club)
             return (
                 f"Club(ClubName={self.clubName!r}, club_keywords={self.InterestKeywords})"
             )
