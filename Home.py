@@ -8,7 +8,8 @@
 # -> create a sub-folder
 # -> move 1_User_Profile.py, 2_Event_Recommendations.py and 3_Browse_Events.py to the sub-folder
 # -> use Home.py as the entry file by running it with "streamlit run Home.py"
-# be sure to correctly specify the file paths for the images and the database in the code. In this file, the paths are defined in lines 39, 180 and 225
+# be sure to correctly specify the file paths for the images and the database in the code. In this file, the paths are defined in lines 40, 181 and 226
+# You may also try to run the code directly from github with the following link: https://matchmyevent-gzo76jtdfoornwwdfu5hjg.streamlit.app/
 
 # As should be evident, this project makes use of a multipage layout to structure both the code and user interface,
 # while also facilitating a way to split coding work between group members.
