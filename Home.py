@@ -177,11 +177,11 @@ st.markdown('<p class="centered">We\'ve created an algorithm that will perfectly
 
 if st.button("see developers' commentary"):
     st.text("""This commentary is meant to complement the video to further\n
-explain the code and the processes that gone into realizing this\n project.\n\n 
+explain the code and the processes that gone into realizing this project.\n\n 
 “BUSINESS CASE” AND PURPOSE\n\n 
 As many students will attest, the number of events taking place on the HSG can \n
 be overwhelming to a point where it is difficult to be aware of all the \n
-interesting events taking place on and around campus.\n MatchMyEvent solves \n
+interesting events taking place on and around campus. MatchMyEvent solves \n
 this problem by providing personalized event recommendations and allowing \n
 students to browse events by clubs.\n\n
 BASIC FUNCTIONALITY\n 
@@ -265,7 +265,7 @@ Browse Events\n
 The 3_Browse_Events.py-file draws on both session states as well as the \n
 events_instances_list created in the Home.py file to allow the user to view \n
 all of the events taking place, filtered by the club that is organizing it.\n\n 
-DATA\n\n 
+DATA\n 
 The starting point of this project is the data made available to us by the \n
 SHSG through a csv-file. The bigger challenge with the data was the limited \n
 amount of information, specifically with regards to attributes suitable for \n
